@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* AEDI Custom Color Palette */
+  --color-aedi-bg: #1E1B1B;
+  --color-aedi-gold: #EAC97C;
+  --color-aedi-accent-1: #B7AA91;
+  --color-aedi-accent-2: #C8BAA6;
+  --color-aedi-accent-3: #8F7E5E;
+  --color-aedi-accent-4: #826015;
+  --color-aedi-panel: #514733;
+  --color-aedi-nvidia: #76B900;
+
+  /* Contrast accent colors */
+  --color-aedi-teal: #0E7490;
+  --color-aedi-blue: #1E3A5F;
+  --color-aedi-emerald: #059669;
+  --color-aedi-indigo: #4338CA;
+
+  /* Font families */
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-space-grotesk);
+}
+
+/* Base styles */
+body {
+  background-color: #1E1B1B;
+  color: #B7AA91;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1E1B1B;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #514733;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8F7E5E;
+}
+
+/* Gradient text utility */
+.text-gradient-gold {
+  background: linear-gradient(135deg, #EAC97C 0%, #C8BAA6 50%, #EAC97C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Teal-gold gradient text */
+.text-gradient-teal {
+  background: linear-gradient(135deg, #EAC97C 0%, #0E7490 60%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(81, 71, 51, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(143, 126, 94, 0.2);
+}
+
+.glass-strong {
+  background: rgba(81, 71, 51, 0.3);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(143, 126, 94, 0.3);
+}
+
+/* Teal glass variant */
+.glass-teal {
+  background: rgba(14, 116, 144, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(14, 116, 144, 0.15);
+}
+
+/* Glow effects */
+.glow-gold {
+  box-shadow: 0 0 20px rgba(234, 201, 124, 0.15), 0 0 60px rgba(130, 96, 21, 0.1);
+}
+
+.glow-nvidia {
+  box-shadow: 0 0 20px rgba(118, 185, 0, 0.2), 0 0 40px rgba(118, 185, 0, 0.1);
+}
+
+.glow-teal {
+  box-shadow: 0 0 20px rgba(14, 116, 144, 0.2), 0 0 40px rgba(14, 116, 144, 0.08);
+}
+
+/* Background gradient mesh for hero */
+.hero-mesh {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(130, 96, 21, 0.15), transparent),
+    radial-gradient(ellipse 40% 40% at 85% 20%, rgba(14, 116, 144, 0.08), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 50%, rgba(143, 126, 94, 0.08), transparent),
+    radial-gradient(ellipse 35% 35% at 10% 60%, rgba(5, 150, 105, 0.05), transparent),
+    radial-gradient(ellipse 50% 50% at 20% 80%, rgba(130, 96, 21, 0.06), transparent),
+    #1E1B1B;
+}
+
+/* Hide Next.js Development Tools and Indicators */
+[data-nextjs-toast],
+[data-nextjs-dialog-overlay],
+#__next-build-watcher,
+.nextjs-toast-errors-parent,
+nextjs-portal,
+#next-dev-toolbar,
+[data-nextjs-dev-tools-button],
+.nextjs-dev-tools-button {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Hide Vercel Toolbar if present */
+#vercel-toolbar {
+  display: none !important;
+}
