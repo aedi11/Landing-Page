@@ -459,6 +459,25 @@ const workflowSteps = [
 ];
 
 function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
+  const enginePoints = [
+    {
+      icon: Brain,
+      text: "Uses large reasoning models as off-device, human-supervised design partners",
+    },
+    {
+      icon: ShieldCheck,
+      text: "Improve requirements quality, architecture design, verification depth, and safety documentation",
+    },
+    {
+      icon: Layers,
+      text: "Ensures logically verified, tested through simulation, deterministic embedded systems design",
+    },
+    {
+      icon: Settings,
+      text: "An LRM-augmented embedded system design toolchain",
+    },
+  ];
+
   return (
     <section id="engine" className="relative overflow-hidden bg-[#1E1B1B] py-32">
       {/* Parallax bg */}
@@ -489,60 +508,168 @@ function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
           </h2>
         </FadeUp>
 
-        <FadeUp delay={0.15}>
-          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {[
-              "Uses large reasoning models as off-device, human-supervised design partners",
-              "Improve requirements quality, architecture design, verification depth, and safety documentation",
-              "Ensures logically verified, tested through simulation, deterministic embedded systems design",
-              "An LRM-augmented embedded system design toolchain",
-            ].map((point, i) => (
-              <div
-                key={i}
-                className="flex items-start gap-3 rounded-xl border border-[#0E7490]/20 bg-[#0E7490]/5 px-5 py-4"
-              >
-                <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#0E7490]" />
-                <p className="text-sm leading-relaxed text-[#C8BAA6] md:text-base">{point}</p>
+        {/* Feature cards */}
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {enginePoints.map((point, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: 0.15 + i * 0.08 }}
+              whileHover={{ y: -4, boxShadow: "0 12px 32px rgba(14,116,144,0.12)" }}
+              className="group flex items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.06] px-6 py-5 backdrop-blur-sm transition-colors duration-300 hover:border-white/20 hover:bg-white/[0.09]"
+            >
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0E7490]/15 ring-1 ring-[#0E7490]/25 transition-all duration-300 group-hover:bg-[#0E7490]/25">
+                <point.icon className="h-5 w-5 text-[#0E7490]" />
               </div>
-            ))}
-          </div>
-        </FadeUp>
+              <p className="text-sm leading-relaxed text-[#C8BAA6] md:text-base">{point.text}</p>
+            </motion.div>
+          ))}
+        </div>
 
-        {/* Workflow Diagram */}
-        <FadeUp delay={0.25}>
-          <div className="mt-20">
-            <h3 className="mb-10 text-center font-[family-name:var(--font-space-grotesk)] text-2xl font-bold text-[#EAC97C] sm:text-3xl">
+        {/* ── Workflow Diagram ── */}
+        <div className="mt-24">
+          <FadeUp>
+            <h3 className="mb-12 text-center font-[family-name:var(--font-space-grotesk)] text-2xl font-bold text-[#EAC97C] sm:text-3xl">
               Design Workflow
             </h3>
-            <div className="flex flex-col items-center">
+          </FadeUp>
+
+          {/* Desktop: horizontal flow */}
+          <div className="hidden lg:block">
+            <div className="flex items-start justify-center gap-0">
               {workflowSteps.map((step, i) => (
-                <div key={step.label} className="flex w-full max-w-2xl flex-col items-center">
+                <div key={step.label} className="flex items-start">
                   {/* Step card */}
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 0.5, delay: i * 0.12, ease: "easeOut" }}
+                    whileHover={{ y: -6, boxShadow: "0 16px 40px rgba(0,0,0,0.25)" }}
+                    className="group relative w-48 flex-shrink-0 cursor-default rounded-2xl border border-white/10 bg-white/[0.06] p-5 backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/[0.1]"
+                  >
+                    {/* Step number badge */}
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: i * 0.12 + 0.2, type: "spring", stiffness: 260, damping: 20 }}
+                      className="absolute -top-3 -right-3 flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-white"
+                      style={{ backgroundColor: step.accent }}
+                    >
+                      {i + 1}
+                    </motion.div>
+
+                    {/* Icon */}
+                    <div
+                      className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110"
+                      style={{
+                        backgroundColor: `${step.accent}18`,
+                        border: `1px solid ${step.accent}35`,
+                      }}
+                    >
+                      <step.icon className="h-7 w-7" style={{ color: step.accent }} />
+                    </div>
+
+                    {/* Label */}
+                    <h4
+                      className="text-center font-[family-name:var(--font-space-grotesk)] text-sm font-bold leading-tight"
+                      style={{ color: step.accent }}
+                    >
+                      {step.label}
+                    </h4>
+
+                    {/* Description */}
+                    {step.description && (
+                      <p className="mt-2 text-center text-xs leading-relaxed text-[#B7AA91]">
+                        {step.description}
+                      </p>
+                    )}
+
+                    {/* Bullets for Design Artifacts */}
+                    {step.bullets && (
+                      <div className="mt-3 space-y-1.5">
+                        {step.bullets.map((bullet) => (
+                          <div key={bullet} className="flex items-start gap-1.5">
+                            <span
+                              className="mt-1.5 h-1 w-1 shrink-0 rounded-full"
+                              style={{ backgroundColor: step.accent }}
+                            />
+                            <span className="text-[11px] leading-snug text-[#C8BAA6]">{bullet}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </motion.div>
+
+                  {/* Horizontal connector arrow */}
+                  {i < workflowSteps.length - 1 && (
+                    <div className="flex h-14 flex-shrink-0 items-center px-1 pt-8">
+                      <motion.div
+                        initial={{ scaleX: 0, opacity: 0 }}
+                        whileInView={{ scaleX: 1, opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, delay: i * 0.12 + 0.3 }}
+                        className="flex items-center"
+                        style={{ transformOrigin: "left" }}
+                      >
+                        <div
+                          className="h-px w-8"
+                          style={{
+                            background: `linear-gradient(to right, ${step.accent}80, ${workflowSteps[i + 1].accent}80)`,
+                          }}
+                        />
+                        <div
+                          className="h-0 w-0"
+                          style={{
+                            borderTop: "5px solid transparent",
+                            borderBottom: "5px solid transparent",
+                            borderLeft: `7px solid ${workflowSteps[i + 1].accent}`,
+                          }}
+                        />
+                      </motion.div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Mobile / Tablet: vertical flow */}
+          <div className="lg:hidden">
+            <div className="mx-auto flex max-w-md flex-col items-center">
+              {workflowSteps.map((step, i) => (
+                <div key={step.label} className="flex w-full flex-col items-center">
+                  <motion.div
+                    initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, margin: "-40px" }}
                     transition={{ duration: 0.5, delay: i * 0.1 }}
-                    className="group relative w-full rounded-2xl border p-6 transition-all duration-300 hover:scale-[1.02]"
-                    style={{
-                      borderColor: `${step.accent}40`,
-                      backgroundColor: `${step.bgAccent}08`,
-                      boxShadow: `0 0 30px ${step.accent}10`,
-                    }}
+                    className="group relative w-full rounded-2xl border border-white/10 bg-white/[0.06] p-5 backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/[0.1]"
                   >
+                    {/* Step number badge */}
+                    <div
+                      className="absolute -top-3 left-5 flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-white"
+                      style={{ backgroundColor: step.accent }}
+                    >
+                      {i + 1}
+                    </div>
+
                     <div className="flex items-center gap-4">
                       <div
                         className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
                         style={{
-                          backgroundColor: `${step.accent}20`,
-                          border: `1px solid ${step.accent}40`,
+                          backgroundColor: `${step.accent}18`,
+                          border: `1px solid ${step.accent}35`,
                         }}
                       >
                         <step.icon className="h-6 w-6" style={{ color: step.accent }} />
                       </div>
                       <div className="flex-1">
                         <h4
-                          className="font-[family-name:var(--font-space-grotesk)] text-lg font-bold sm:text-xl"
+                          className="font-[family-name:var(--font-space-grotesk)] text-base font-bold"
                           style={{ color: step.accent }}
                         >
                           {step.label}
@@ -553,13 +680,12 @@ function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
                       </div>
                     </div>
 
-                    {/* Bullet list for Design Artifacts */}
                     {step.bullets && (
-                      <div className="mt-4 grid grid-cols-1 gap-2 pl-16 sm:grid-cols-2">
+                      <div className="mt-3 grid grid-cols-1 gap-1.5 pl-16 sm:grid-cols-2">
                         {step.bullets.map((bullet) => (
                           <div key={bullet} className="flex items-start gap-2">
                             <span
-                              className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
+                              className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full"
                               style={{ backgroundColor: step.accent }}
                             />
                             <span className="text-sm leading-relaxed text-[#C8BAA6]">{bullet}</span>
@@ -569,9 +695,16 @@ function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
                     )}
                   </motion.div>
 
-                  {/* Connector arrow */}
+                  {/* Vertical connector */}
                   {i < workflowSteps.length - 1 && (
-                    <div className="flex flex-col items-center py-2">
+                    <motion.div
+                      initial={{ scaleY: 0, opacity: 0 }}
+                      whileInView={{ scaleY: 1, opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.3, delay: i * 0.1 + 0.2 }}
+                      className="flex flex-col items-center py-1"
+                      style={{ transformOrigin: "top" }}
+                    >
                       <div
                         className="h-8 w-px"
                         style={{
@@ -581,18 +714,18 @@ function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
                       <div
                         className="h-0 w-0"
                         style={{
-                          borderLeft: "6px solid transparent",
-                          borderRight: "6px solid transparent",
-                          borderTop: `8px solid ${workflowSteps[i + 1].accent}90`,
+                          borderLeft: "5px solid transparent",
+                          borderRight: "5px solid transparent",
+                          borderTop: `7px solid ${workflowSteps[i + 1].accent}`,
                         }}
                       />
-                    </div>
+                    </motion.div>
                   )}
                 </div>
               ))}
             </div>
           </div>
-        </FadeUp>
+        </div>
       </div>
     </section>
   );
@@ -846,7 +979,8 @@ const teamMembers = [
     icon: Award,
     image: "/images/bhim_singh.jpg",
     name: "Prof. Bhim Singh",
-    title: "Mentor & Advisor",
+    subtitle: "Dept. of Electrical Engineering, IIT Delhi",
+    title: "Mentor & Shareholder",
     description:
       "Emeritus Professor at IIT Delhi and recipient of the prestigious Rashtriya Vigyan Puraskar — Vigyan Shri by the President of India in 2024.",
     accent: "#EAC97C",
@@ -855,7 +989,8 @@ const teamMembers = [
     icon: GraduationCap,
     image: "/images/amit_gupta.png",
     name: "Prof. Amit Gupta",
-    title: "Mentor & Advisor",
+    subtitle: "Dept. of Mechanical Engineering, IIT Delhi",
+    title: "Mentor",
     description:
       "Mehra Chair Professor in the Department of Mechanical Engineering at IIT Delhi, specializing in Lithium-based technologies.",
     accent: "#0E7490",
@@ -864,7 +999,8 @@ const teamMembers = [
     icon: Brain,
     image: "/images/santanu_chaudhury.png",
     name: "Prof. Santanu Chaudhury",
-    title: "Mentor & Advisor",
+    subtitle: "Dept. of Electrical Engineering, IIT Delhi & IIT Jodhpur",
+    title: "Master System Architect",
     description:
       "Former Director of IIT Jodhpur, with expertise in Computer Vision and Artificial Intelligence.",
     accent: "#059669",
@@ -875,7 +1011,7 @@ const teamMembers = [
     name: "Chunchreek Singhvi",
     title: "Shareholder",
     description:
-      "30+ years of hands-on industry experience in the space of embedded engineering management and startup initiatives spanning across innovative technologies, venture",
+      "20+ years of hands-on industry experience in the space of embedded engineering management and startup initiatives spanning across innovative technologies, venture",
     accent: "#EAC97C",
   },
   {
@@ -894,7 +1030,7 @@ const teamMembers = [
     title: "Data Scientist Intern",
     description:
       "Pursuing B.Tech in Electrical Engineering from Indian Institute of Technology Delhi.",
-    accent: "#059669",
+    accent: "#bb8a1fff",
   },
 ];
 
@@ -930,6 +1066,11 @@ function TeamCard({ member }: { member: (typeof teamMembers)[number] }) {
       <h3 className="font-[family-name:var(--font-space-grotesk)] text-lg font-bold text-[#EAC97C]">
         {member.name}
       </h3>
+      {member.subtitle && (
+        <p className="mt-1 text-xs leading-snug text-[#B7AA91]/70">
+          {member.subtitle}
+        </p>
+      )}
       <div
         className="mt-1 text-xs font-semibold uppercase tracking-wider"
         style={{ color: member.accent }}
