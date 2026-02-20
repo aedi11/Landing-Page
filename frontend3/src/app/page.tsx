@@ -2,6 +2,7 @@
 
 import {
   motion,
+  AnimatePresence,
   useInView,
   useScroll,
   useTransform,
@@ -31,7 +32,7 @@ import {
   Briefcase,
   Code,
   BarChart3,
-  ChevronUp,
+  X,
 } from "lucide-react";
 
 /* ──────────────────────────────────────────────
@@ -504,7 +505,7 @@ function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
           <h2 className="font-[family-name:var(--font-space-grotesk)] text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
             <span className="text-[#EAC97C]">From Requirements to Embedded System Design:</span>
             <br />
-            <span className="text-[#0E7490]">An AI-Driven Design Service</span>
+            <span className="text-[#0E7490]">AI-Driven Proprietary Design Solutions</span>
           </h2>
         </FadeUp>
 
@@ -798,15 +799,14 @@ function ScopeSection({ scrollY }: { scrollY: MotionValue<number> }) {
         <FadeUp delay={0.1}>
           <h2 className="text-center font-[family-name:var(--font-space-grotesk)] text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
             <span className="text-[#EAC97C]">One Platform.</span>{" "}
-            <span className="text-[#0E7490]">Infinite</span>{" "}
-            <span className="text-[#EAC97C]">Embedded Systems.</span>
+            <span className="text-[#0E7490]">Multiple</span>{" "}
+            <span className="text-[#EAC97C]">Applications.</span>
           </h2>
         </FadeUp>
 
         <FadeUp delay={0.15}>
           <p className="mx-auto mt-6 max-w-3xl text-center text-lg leading-relaxed text-[#B7AA91] md:text-xl">
-            AEDI acts as a comprehensive dynamic foundational model capable of
-            generating a spectrum of application-level embedded system designs.
+            AEDI is a dynamic functional model generating comprehensive embedded system designs for a range of applications.
           </p>
         </FadeUp>
 
@@ -871,7 +871,7 @@ const impactStats = [
   {
     icon: Wrench,
     stat: "~70%",
-    title: "Engineering Optimization",
+    title: "Development Cost Reduction",
     description:
       "AEDI drives up to a 70% reduction in engineering efforts.",
     accent: "#EAC97C",
@@ -881,7 +881,7 @@ const impactStats = [
     stat: "Seamless",
     title: "Seamless Manufacturing",
     description:
-      "We deliver custom firmware, precise Gerber files, and an optimized Bill of Materials (BOM) for effective sourcing and seamless assembly.",
+      "We deliver cost-optimized, rule-based design developments with reduced judgment and bias errors in shorter time.",
     accent: "#059669",
   },
   {
@@ -889,7 +889,7 @@ const impactStats = [
     stat: "Dynamic",
     title: "Dynamic Design",
     description:
-      "Achieve shorter time, cost-optimized, rule-based design developments with reduced judgment and bias errors.",
+      "Multiple Design Varients at a click of a button",
     accent: "#0E7490",
   },
 ];
@@ -932,14 +932,14 @@ function ImpactSection({ scrollY }: { scrollY: MotionValue<number> }) {
         <FadeUp delay={0.15}>
           <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-relaxed text-[#B7AA91] md:text-xl">
             Our new-tech enabled system delivers best-in-class optimized system
-            solutions.
+            solutions, custom firmware, precise Gerber files, and an optimized Bill of Materials (BOM) for effective sourcing and seamless assembly.
           </p>
         </FadeUp>
 
         <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {impactStats.map((item, i) => (
             <FadeUp key={item.title} delay={0.1 + i * 0.1} className="h-full">
-              <div className="glass-strong group rounded-2xl p-8 text-center transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,116,144,0.12)] h-full flex flex-col justify-between">
+              <div className="glass-strong group rounded-2xl p-8 text-center transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,116,144,0.12)] h-full flex flex-col">
                 <div>
                   <div
                     className={`${
@@ -980,9 +980,14 @@ const teamMembers = [
     image: "/images/bhim_singh.jpg",
     name: "Prof. Bhim Singh",
     subtitle: "Dept. of Electrical Engineering, IIT Delhi",
-    title: "Mentor & Shareholder",
-    description:
-      "Emeritus Professor at IIT Delhi and recipient of the prestigious Rashtriya Vigyan Puraskar — Vigyan Shri by the President of India in 2024.",
+    title: "Mentor, Shareholder",
+    description: [
+      "ANRF National Science Chair & Emeritus Professor. FNAE, FNA, FNASc, FASc, FTWAS, FIEEE, FIET, FIETE, FIE(I)",
+      "Dean, Academics at IIT Delhi. August 2016 - August 2019.",
+      "72 patents granted + 37 patents filed. Executed >90 sponsored consultancy projects. Published 1326 research papers in journals. Presented >1,841 papers across global conferences. Guided 134 Ph.D. dissertations and 183 M.E./M.Tech./M.S.(R) theses.",
+      "Recipient of prestigious Rashtriya Vigyan Puraskar — Vigyan Shri by the President of India, 2024; Goyal Prize for Applied Sciences, Kurukshetra University, 2021-2022. Khosla National Research Award of IIT Roorkee, 2013. Shri Om Prakash Bhasin Award-2014 in the field of Engineering including Energy & Aerospace. Faculty Lifetime Research Award-2018 for overall research contribution at IIT Delhi.",
+      "Co-authored a textbook on power quality: Power Quality Problems and Mitigation Techniques published by John Wiley & Sons Ltd. 2015.",
+    ],
     accent: "#EAC97C",
   },
   {
@@ -990,34 +995,55 @@ const teamMembers = [
     image: "/images/amit_gupta.png",
     name: "Prof. Amit Gupta",
     subtitle: "Dept. of Mechanical Engineering, IIT Delhi",
-    title: "Mentor",
-    description:
-      "Mehra Chair Professor in the Department of Mechanical Engineering at IIT Delhi, specializing in Lithium-based technologies.",
-    accent: "#0E7490",
+    title: "Mentor, Shareholder",
+    description: [
+      "Having joined as a faculty in May 2011, Prof. Gupta currently holds the Mehra Chair as a Professor in the Department of Mechanical Engineering at IIT Delhi.",
+      "Prof. Gupta is also serving as Associate Dean (Infrastructure) in the institute since September 2024.",
+      "Formerly, he held the NTPC Chair Professorship from January 2019 till December 2023. Prior to his current appointment, Prof. Gupta was a post-doctoral research fellow at the GM/UM Advanced Battery Coalition for Drivetrains (ABCD), University of Michigan (UM), Ann Arbor between 2009 and 2011.",
+      "He received M.S. & Ph.D. at the University of Central Florida (UCF) in 2007 and 2009 respectively, and B.Tech. from IIT Delhi in 2004.",
+      "Prof. Gupta was a recipient of the Mrs. Veena Arora Early Career Award given by IIT Delhi in February 2021.",
+      "His broad research interests are in Lithium-based technologies, microfluidics and flapping wing aerodynamics.",
+    ],
+    accent: "#EAC97C",
   },
   {
     icon: Brain,
     image: "/images/santanu_chaudhury.png",
     name: "Prof. Santanu Chaudhury",
     subtitle: "Dept. of Electrical Engineering, IIT Delhi & IIT Jodhpur",
-    title: "Master System Architect",
-    description:
-      "Former Director of IIT Jodhpur, with expertise in Computer Vision and Artificial Intelligence.",
-    accent: "#059669",
+    title: "Master System Architect, Shareholder",
+    description: [
+      "Retired from Department of Electrical Engineering, IIT Delhi on 31 January 2026.",
+      "Former Director, IIT Jodhpur and Director CSIR-Central Electronics Research Institute.",
+      "Former Dean, Undergraduate Studies, IIT Delhi. Chair Professor positions at IIT Delhi.",
+      "Awarded INSA medal for young scientists in 1993.",
+      "Fellow of Indian National Academy of Engineers (INAE), The National Academy of Sciences (NASI) and International Association of Pattern Recognition (IAPR).",
+      ">350 publications in reputed Journals and conferences.",
+      "15 patents with technologies commercialized by global industries.",
+      "Interests: Computer Vision, Artificial Intelligence, Digital Heritage, AR-VR & Multi-sensory media.",
+      "B.Tech (1984) in Electronics and Electrical Communication Engg and Ph.D (1989) in Computer Science and Engg. from I.I.T, Kharagpur, India.",
+    ],
+    accent: "#EAC97C",
   },
   {
     icon: Briefcase,
     image: "/images/chunchreek_singhvi.jpg",
     name: "Chunchreek Singhvi",
     title: "Shareholder",
-    description:
-      "20+ years of hands-on industry experience in the space of embedded engineering management and startup initiatives spanning across innovative technologies, venture",
+    description: [
+      "Identified the opportunity after 10+ years of hands-on industry experience in the space of embedded engineering management; chased the possibility and driver of the vision.",
+      ">20 years as part of startup initiatives spanning across innovative technologies, venture capital and private equity. Delivered successful/failed/sustained operating startups to bloom into global businesses in 15 industries across 10 countries.",
+      ">USD 700 Mn in business development, global tech JVs, technology adaptation, product development & operations experiences in India, USA, EU, Thailand & Hong Kong (China).",
+      "USD 500 Mn VC-PE fund raising, investment & portfolio management experiences. Investment experience in technology platforms (Optical cables, Embedded Systems for Railways, Security, Defence, Road Transport), real estate, hotels, social impact, fashion.",
+      "Smurfit, UC Dublin - Masters in Business; Bachelors in Law; B.A. Economics; Scholar at Eton & Reims.",
+    ],
     accent: "#EAC97C",
   },
   {
     icon: Code,
     image: "/images/vipul.jpeg",
     name: "Vipul Lout",
+    subtitle: "Dept. of Electrical Engineering IIT Delhi",
     title: "Full-Stack Developer",
     description:
       "B.Tech graduate in Electrical Engineering from Indian Institute of Technology Delhi.",
@@ -1027,6 +1053,7 @@ const teamMembers = [
     icon: BarChart3,
     image: "/images/Divyansh_kumar.png",
     name: "Divyansh Kumar",
+    subtitle: "Dept. of Electrical Engineering, IIT Delhi",
     title: "Data Scientist Intern",
     description:
       "Pursuing B.Tech in Electrical Engineering from Indian Institute of Technology Delhi.",
@@ -1035,67 +1062,145 @@ const teamMembers = [
 ];
 
 function TeamCard({ member }: { member: (typeof teamMembers)[number] }) {
-  const [expanded, setExpanded] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
-    <div
-      onClick={() => setExpanded(!expanded)}
-      className="glass group flex h-full cursor-pointer flex-col items-center rounded-2xl p-8 text-center transition-all duration-300 hover:shadow-[0_0_25px_rgba(14,116,144,0.1)]"
-    >
+    <>
+      {/* Card */}
       <div
-        className="mb-6 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full transition-all duration-300"
-        style={{
-          backgroundColor: `${member.accent}12`,
-          boxShadow: `0 0 0 2px ${member.accent}30`,
-        }}
+        onClick={() => setOpen(true)}
+        className="glass group flex h-full cursor-pointer flex-col items-center rounded-2xl p-8 text-center transition-all duration-300 hover:shadow-[0_0_25px_rgba(14,116,144,0.1)]"
       >
-        {member.image ? (
-          <img
-            src={member.image}
-            alt={member.name}
-            className="h-full w-full object-cover"
-          />
-        ) : (
-          <member.icon
-            className="h-8 w-8"
-            style={{ color: member.accent }}
-          />
+        <div
+          className="mb-6 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full transition-all duration-300"
+          style={{
+            backgroundColor: `${member.accent}12`,
+            boxShadow: `0 0 0 2px ${member.accent}30`,
+          }}
+        >
+          {member.image ? (
+            <img
+              src={member.image}
+              alt={member.name}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <member.icon
+              className="h-8 w-8"
+              style={{ color: member.accent }}
+            />
+          )}
+        </div>
+
+        <h3 className="font-[family-name:var(--font-space-grotesk)] text-lg font-bold text-[#EAC97C]">
+          {member.name}
+        </h3>
+        {member.subtitle && (
+          <p className="mt-1 text-xs leading-snug text-[#B7AA91]/70">
+            {member.subtitle}
+          </p>
         )}
+        <div
+          className="mt-1 text-xs font-semibold uppercase tracking-wider"
+          style={{ color: member.accent }}
+        >
+          {member.title}
+        </div>
+
+        {/* Tap hint */}
+        <p className="mt-4 text-xs text-[#B7AA91]/40">Click to read more</p>
       </div>
 
-      <h3 className="font-[family-name:var(--font-space-grotesk)] text-lg font-bold text-[#EAC97C]">
-        {member.name}
-      </h3>
-      {member.subtitle && (
-        <p className="mt-1 text-xs leading-snug text-[#B7AA91]/70">
-          {member.subtitle}
-        </p>
-      )}
-      <div
-        className="mt-1 text-xs font-semibold uppercase tracking-wider"
-        style={{ color: member.accent }}
-      >
-        {member.title}
-      </div>
+      {/* Modal overlay */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            onClick={() => setOpen(false)}
+          >
+            {/* Blurred backdrop */}
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
 
-      {/* Expandable description */}
-      <motion.div
-        initial={false}
-        animate={{ height: expanded ? "auto" : 0, opacity: expanded ? 1 : 0 }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="overflow-hidden"
-      >
-        <p className="mt-4 text-sm leading-relaxed text-[#B7AA91]">
-          {member.description}
-        </p>
-      </motion.div>
+            {/* Modal content */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92, y: 20 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              onClick={(e) => e.stopPropagation()}
+              className="glass relative z-10 w-full max-w-[60vw] max-h-[85vh] overflow-y-auto rounded-2xl border border-[#8F7E5E]/20 p-10"
+            >
+              {/* Close button */}
+              <button
+                onClick={() => setOpen(false)}
+                className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-[#B7AA91]/60 transition-colors hover:bg-[#B7AA91]/10 hover:text-[#EAC97C]"
+              >
+                <X className="h-5 w-5" />
+              </button>
 
-      {/* Expand hint */}
-      <ChevronUp
-        className="mt-3 h-4 w-4 text-[#B7AA91]/50 transition-transform duration-300"
-        style={{ transform: expanded ? "rotate(0deg)" : "rotate(180deg)" }}
-      />
-    </div>
+              {/* Header */}
+              <div className="flex items-center gap-6">
+                <div
+                  className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full"
+                  style={{
+                    backgroundColor: `${member.accent}12`,
+                    boxShadow: `0 0 0 2px ${member.accent}30`,
+                  }}
+                >
+                  {member.image ? (
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <member.icon
+                      className="h-8 w-8"
+                      style={{ color: member.accent }}
+                    />
+                  )}
+                </div>
+                <div>
+                  <h3 className="font-[family-name:var(--font-space-grotesk)] text-2xl font-bold text-[#EAC97C]">
+                    {member.name}
+                  </h3>
+                  {member.subtitle && (
+                    <p className="mt-1 text-sm text-[#B7AA91]/70">
+                      {member.subtitle}
+                    </p>
+                  )}
+                  <div
+                    className="mt-1 text-sm font-semibold uppercase tracking-wider"
+                    style={{ color: member.accent }}
+                  >
+                    {member.title}
+                  </div>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div className="mt-8">
+                {Array.isArray(member.description) ? (
+                  <ul className="list-disc space-y-2 pl-5 text-base leading-relaxed text-[#B7AA91]">
+                    {member.description.map((point, idx) => (
+                      <li key={idx}>{point}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-base leading-relaxed text-[#B7AA91]">
+                    {member.description}
+                  </p>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
@@ -1120,7 +1225,7 @@ function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
         <FadeUp>
           <div className="mb-6 text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#514733]/40 px-4 py-2 text-xs font-medium uppercase tracking-widest text-[#EAC97C] ring-1 ring-[#8F7E5E]/20">
-              The Leadership
+              Humans at AEDI
             </span>
           </div>
         </FadeUp>
