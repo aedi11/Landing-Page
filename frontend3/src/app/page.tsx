@@ -33,6 +33,7 @@ import {
   Code,
   BarChart3,
   X,
+  Mail,
 } from "lucide-react";
 
 /* ──────────────────────────────────────────────
@@ -481,6 +482,8 @@ function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
 
   return (
     <section id="engine" className="relative overflow-hidden bg-[#1E1B1B] py-32">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E7490]/30 to-transparent" />
+
       {/* Parallax bg */}
       <div className="pointer-events-none absolute inset-0">
         <FloatingOrb scrollY={scrollY} speed={-500} color="#059669" size={450} blur={130} left="75%" top="10%" opacity={0.05} />
@@ -773,7 +776,7 @@ const scopeItems = [
 function ScopeSection({ scrollY }: { scrollY: MotionValue<number> }) {
   return (
     <section id="scope" className="relative overflow-hidden py-32">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E7490]/40 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E7490]/30 to-transparent" />
 
       {/* Parallax bg */}
       <div className="pointer-events-none absolute inset-0">
@@ -897,7 +900,7 @@ const impactStats = [
 function ImpactSection({ scrollY }: { scrollY: MotionValue<number> }) {
   return (
     <section id="impact" className="relative overflow-hidden bg-[#1E1B1B] py-32">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#059669]/40 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E7490]/30 to-transparent" />
 
       {/* Parallax bg */}
       <div className="pointer-events-none absolute inset-0">
@@ -1082,7 +1085,7 @@ function TeamCard({ member }: { member: (typeof teamMembers)[number] }) {
             <img
               src={member.image}
               alt={member.name}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover object-top"
             />
           ) : (
             <member.icon
@@ -1155,7 +1158,7 @@ function TeamCard({ member }: { member: (typeof teamMembers)[number] }) {
                     <img
                       src={member.image}
                       alt={member.name}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-cover object-top"
                     />
                   ) : (
                     <member.icon
@@ -1207,7 +1210,7 @@ function TeamCard({ member }: { member: (typeof teamMembers)[number] }) {
 function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
   return (
     <section id="leadership" className="relative overflow-hidden py-32">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-[#0E7490]/30 via-[#826015]/40 to-[#059669]/30" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E7490]/30 to-transparent" />
 
       {/* Parallax bg */}
       <div className="pointer-events-none absolute inset-0">
@@ -1257,6 +1260,75 @@ function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
   );
 }
 
+function ContactSection() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <section id="contact" className="relative overflow-hidden py-20">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E7490]/30 to-transparent" />
+
+      <div className="relative z-10 mx-auto max-w-6xl px-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="font-[family-name:var(--font-space-grotesk)] text-2xl font-bold tracking-tight text-[#EAC97C] sm:text-3xl">
+              Get in Touch
+            </h2>
+            <p className="mt-1 text-sm text-[#B7AA91]/70">
+              For business inquiries and partnerships
+            </p>
+          </div>
+
+          <button
+            onClick={() => setOpen(!open)}
+            className="glass flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium text-[#EAC97C] ring-1 ring-[#8F7E5E]/20 transition-all duration-300 hover:ring-[#0E7490]/40"
+          >
+            <Mail className="h-4 w-4" />
+            Contact Us
+            <ChevronDown
+              className="h-4 w-4 transition-transform duration-300"
+              style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
+            />
+          </button>
+        </div>
+
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              <div className="mt-8 glass rounded-2xl border border-[#8F7E5E]/20 p-8">
+                <div className="flex items-start gap-4">
+                  <div
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
+                    style={{ backgroundColor: "#0E749012", boxShadow: "0 0 0 2px #0E749030" }}
+                  >
+                    <Mail className="h-5 w-5 text-[#0E7490]" />
+                  </div>
+                  <div>
+                    <h3 className="font-[family-name:var(--font-space-grotesk)] text-sm font-semibold uppercase tracking-wider text-[#EAC97C]">
+                      Email
+                    </h3>
+                    <a
+                      href="mailto:cs@chunchreek.com"
+                      className="mt-2 inline-block text-lg text-[#0E7490] transition-colors hover:text-[#0E7490]/80"
+                    >
+                      cs@chunchreek.com
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </section>
+  );
+}
+
 /* ══════════════════════════════════════════════
    Page composition — scrollY shared across all
    ══════════════════════════════════════════════ */
@@ -1271,6 +1343,7 @@ export default function Home() {
       <ScopeSection scrollY={scrollY} />
       <ImpactSection scrollY={scrollY} />
       <LeadershipSection scrollY={scrollY} />
+      <ContactSection />
     </main>
   );
 }
