@@ -33,7 +33,6 @@ import {
   Code,
   BarChart3,
   X,
-  Mail,
 } from "lucide-react";
 
 /* ──────────────────────────────────────────────
@@ -251,7 +250,7 @@ function HeroSection({ scrollY }: { scrollY: MotionValue<number> }) {
         <FadeUp>
           <div className="mb-8 inline-flex items-center gap-2 rounded-full bg-[#514733]/60 px-5 py-2.5 text-sm font-medium text-[#EAC97C] ring-1 ring-[#0E7490]/30 backdrop-blur-sm">
             <Rocket className="h-4 w-4" />
-            Proudly Contributing to AI INDIA Mission
+            Proudly contributing to AI INDIA Mission
           </div>
         </FadeUp>
 
@@ -272,11 +271,10 @@ function HeroSection({ scrollY }: { scrollY: MotionValue<number> }) {
         {/* Subtitle */}
         <FadeUp delay={0.2}>
           <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[#B7AA91] sm:text-lg md:text-xl">
-            Empowering India&apos;s hardware ecosystem through high-powered
-            computing. AEDI addresses the inefficiencies of traditional
-            incumbents by offering sophisticated, AI-enabled capability stacks.
-            We provide generic, simplified Electronic Design Automation (EDA)
-            toolkits to accelerate innovation for developmental engineers.
+            Empowering embedded electronics ecosystem through High Performance
+            Computing. AEDI engineers successfully tested the hypothesis to 
+            commit towards a product focused, generative AI approach to synthesize 
+            and deliver physically feasible, comprehensive, embedded system designs.
           </p>
         </FadeUp>
 
@@ -295,7 +293,7 @@ function HeroSection({ scrollY }: { scrollY: MotionValue<number> }) {
               className="glass inline-flex items-center gap-2 rounded-xl px-8 py-4 text-base font-semibold text-[#EAC97C] transition-all duration-300 hover:bg-[#514733]/40 hover:shadow-[0_0_20px_rgba(14,116,144,0.2)]"
             >
               <FileText className="h-4 w-4" />
-              Demo
+              Concept Demo
             </a>
           </div>
         </FadeUp>
@@ -340,8 +338,8 @@ function VisionSection({ scrollY }: { scrollY: MotionValue<number> }) {
         // src="/your-video.mp4"
       />
 
-      {/* Dark gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1E1B1B] via-[#1E1B1B]/80 to-[#1E1B1B]" />
+      {/* Subtle top/bottom fade for smooth transitions */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1E1B1B]/60 via-transparent to-[#1E1B1B]/60" />
 
       {/* Parallax elements */}
       <div className="pointer-events-none absolute inset-0">
@@ -362,11 +360,11 @@ function VisionSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </FadeUp>
 
         <FadeUp delay={0.1}>
-          <h2 className="font-[family-name:var(--font-space-grotesk)] text-4xl font-bold leading-tight tracking-tight text-[#EAC97C] sm:text-5xl md:text-6xl lg:text-7xl">
-            Automation in Electronic Design 
+          <h2 className="font-[family-name:var(--font-space-grotesk)] text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+            <span className="text-[#EAC97C]">Automation in Electronic Systems Design </span>
             <br />
-            is the{" "}
-            <span className="text-[#0E7490]">Next Big Thing.</span>
+            <span className="text-[#EAC97C]">is the{" "}</span>
+            <span className="text-[#ffffff]">Next Big Thing!</span>
           </h2>
         </FadeUp>
 
@@ -377,33 +375,19 @@ function VisionSection({ scrollY }: { scrollY: MotionValue<number> }) {
         <FadeUp delay={0.25}>
           <p className="mx-auto max-w-2xl text-lg leading-relaxed text-[#C8BAA6] sm:text-xl md:text-2xl">
             As artificial intelligence advances and becomes more deterministic,
-            AI for Electronic Design Automation is not just an evolution — it is{" "}
-            <span className="font-semibold text-[#0E7490]">inevitable</span>.
-            We are building the engine for India&apos;s tech sovereignty.
+            AI for Electronic Design Automation (EDA) is not just an evolution — it is{" "}
+            <span className="font-semibold text-[#0E7490]">inevitable!</span>
           </p>
         </FadeUp>
 
         <FadeUp delay={0.35}>
-          <div className="mt-16 flex flex-col justify-center gap-6 sm:flex-row">
-            {[
-              { value: "LRM-Based", label: "Design Approach", accent: "#0E7490" },
-              { value: "EDA", label: "Next-Gen Toolkits", accent: "#059669" },
-            ].map((stat) => (
-              <div
-                key={stat.label}
-                className="glass rounded-2xl px-6 py-8 transition-all duration-300 hover:shadow-[0_0_20px_rgba(14,116,144,0.15)]"
-              >
-                <div
-                  className="font-[family-name:var(--font-space-grotesk)] text-2xl font-bold sm:text-3xl"
-                  style={{ color: stat.accent }}
-                >
-                  {stat.value}
-                </div>
-                <div className="mt-2 text-sm font-medium text-[#8F7E5E]">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
+          <div className="mx-auto mt-16 max-w-2xl glass rounded-2xl px-8 py-10 text-center transition-all duration-300 hover:shadow-[0_0_20px_rgba(14,116,144,0.15)]">
+            <div className="font-[family-name:var(--font-space-grotesk)] text-2xl font-bold text-[#0E7490] sm:text-3xl">
+              LRM based EDA
+            </div>
+            <p className="mt-4 text-lg leading-relaxed text-[#C8BAA6] sm:text-2xl">
+              AEDI&apos;s compute prowess to synthesize and deliver production ready embedded system designs, optimized for the end user.
+            </p>
           </div>
         </FadeUp>
       </div>
@@ -461,25 +445,6 @@ const workflowSteps = [
 ];
 
 function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
-  const enginePoints = [
-    {
-      icon: Brain,
-      text: "Uses large reasoning models as off-device, human-supervised design partners",
-    },
-    {
-      icon: ShieldCheck,
-      text: "Improve requirements quality, architecture design, verification depth, and safety documentation",
-    },
-    {
-      icon: Layers,
-      text: "Ensures logically verified, tested through simulation, deterministic embedded systems design",
-    },
-    {
-      icon: Settings,
-      text: "An LRM-augmented embedded system design toolchain",
-    },
-  ];
-
   return (
     <section id="engine" className="relative overflow-hidden bg-[#1E1B1B] py-32">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E7490]/30 to-transparent" />
@@ -498,37 +463,45 @@ function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <FadeUp>
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-[#514733]/40 px-4 py-2 text-xs font-medium uppercase tracking-widest text-[#059669] ring-1 ring-[#059669]/20">
-            <Cpu className="h-3.5 w-3.5" />
-            The Engine
+          <div className="mb-6 text-center">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#514733]/40 px-4 py-2 text-xs font-medium uppercase tracking-widest text-[#059669] ring-1 ring-[#059669]/20">
+              <Cpu className="h-3.5 w-3.5" />
+              The Engine
+            </span>
           </div>
         </FadeUp>
 
         <FadeUp delay={0.1}>
-          <h2 className="font-[family-name:var(--font-space-grotesk)] text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-            <span className="text-[#EAC97C]">From Requirements to Embedded System Design:</span>
+          <h2 className="text-center font-[family-name:var(--font-space-grotesk)] text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl">
+            <span className="text-[#EAC97C]">Automated Input Discovery to Embedded System Design</span>
             <br />
             <span className="text-[#0E7490]">AI-Driven Proprietary Design Solutions</span>
           </h2>
         </FadeUp>
 
-        {/* Feature cards */}
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {enginePoints.map((point, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5, delay: 0.15 + i * 0.08 }}
-              whileHover={{ y: -4, boxShadow: "0 12px 32px rgba(14,116,144,0.12)" }}
-              className="group flex items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.06] px-6 py-5 backdrop-blur-sm transition-colors duration-300 hover:border-white/20 hover:bg-white/[0.09]"
-            >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0E7490]/15 ring-1 ring-[#0E7490]/25 transition-all duration-300 group-hover:bg-[#0E7490]/25">
-                <point.icon className="h-5 w-5 text-[#0E7490]" />
+        {/* Engine feature boxes — decreasing size left to right */}
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+          {[
+            { text: "Generative AI with Large Reasoning Models", size: 400, font: "text-sm sm:text-lg" },
+            { text: "Causal Reasoning to Eliminate Hallucinations in Design", size: 250, font: "text-xs sm:text-sm" },
+            { text: "Verifiable Simulation Engine", size: 160, font: "text-xs sm:text-sm" },
+            { text: "Physically Viable Designs", size: 130, font: "text-[10px] sm:text-xs" },
+          ].map((item, i) => (
+            <FadeUp key={i} delay={0.15 + i * 0.08}>
+              <div
+                className="relative shrink-0 aspect-square"
+                style={{ width: item.size, height: item.size }}
+              >
+                <img
+                  src="/images/box.png"
+                  alt=""
+                  className="h-full w-full object-contain"
+                />
+                <p className={`absolute inset-[20%] flex items-center justify-center text-center font-[family-name:var(--font-space-grotesk)] font-bold leading-snug text-[#EAC97C] ${item.font}`}>
+                  {item.text}
+                </p>
               </div>
-              <p className="text-sm leading-relaxed text-[#C8BAA6] md:text-base">{point.text}</p>
-            </motion.div>
+            </FadeUp>
           ))}
         </div>
 
@@ -744,7 +717,7 @@ const scopeItems = [
     image: "/images/BMS.png",
     title: "Battery & Mobility Systems",
     description:
-      "We automate mechanical, thermal, and electronic (BMS) battery designs for portable packs, two-wheelers, and three-wheelers.",
+      "AEDI automates mechanical, thermal, and electronic (BMS) battery designs for portable packs, two-wheelers, and three-wheelers.",
     accent: "#059669",
   },
   {
@@ -752,7 +725,7 @@ const scopeItems = [
     image: "/images/DroneCircuit.jpg",
     title: "Aerospace & Defence",
     description:
-      "Our designs power drones, night vision powering solutions, and radar systems.",
+      "Our designs power drones, night vision devices, and radar systems.",
     accent: "#0E7490",
   },
   {
@@ -760,15 +733,15 @@ const scopeItems = [
     image: "/images/automotive.png",
     title: "Automotive Integration",
     description:
-      "We build complex controllers for ECU load balancing and optimization, as well as electric vehicle chargers.",
+      "We build optimized simple as well as complex controllers for various interdependent automotive applications.",
     accent: "#EAC97C",
   },
   {
     icon: Speaker,
     image: "/images/ESS.png",
-    title: "Consumer & Power Electronics",
+    title: "Industrial & Consumer Power Electronics",
     description:
-      "Our solutions extend to motor controllers, home electronics, and portable audio devices.",
+      "AEDI solutions to automate telecom power, home power storage systems, renewable energy systems, ESS. . .",
     accent: "#059669",
   },
 ];
@@ -800,10 +773,10 @@ function ScopeSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </FadeUp>
 
         <FadeUp delay={0.1}>
-          <h2 className="text-center font-[family-name:var(--font-space-grotesk)] text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-            <span className="text-[#EAC97C]">One Platform.</span>{" "}
+          <h2 className="text-center font-[family-name:var(--font-space-grotesk)] text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl">
+            <span className="text-gradient-gold">One Platform.</span>{" "}
             <span className="text-[#0E7490]">Multiple</span>{" "}
-            <span className="text-[#EAC97C]">Applications.</span>
+            <span className="text-gradient-gold">Applications.</span>
           </h2>
         </FadeUp>
 
@@ -868,7 +841,7 @@ const impactStats = [
     stat: ">60%",
     title: "Massive Time Savings",
     description:
-      "Experience a greater than 60% reduction in design and iteration times.",
+      "Experience greater than 60% reduction in design and iteration time.",
     accent: "#0E7490",
   },
   {
@@ -876,23 +849,23 @@ const impactStats = [
     stat: "~70%",
     title: "Development Cost Reduction",
     description:
-      "AEDI drives up to a 70% reduction in engineering efforts.",
+      "AEDI drives up to 70% reduction in engineering efforts.",
     accent: "#EAC97C",
   },
   {
     icon: Factory,
-    stat: "Seamless",
-    title: "Seamless Manufacturing",
+    stat: "Optimized Designs",
+    title: "Automated Customiztion",
     description:
-      "We deliver cost-optimized, rule-based design developments with reduced judgment and bias errors in shorter time.",
+      "Cost and time optimized, rule-based design developments with reduced judgment and bias errors.",
     accent: "#059669",
   },
   {
     icon: Zap,
-    stat: "Dynamic",
-    title: "Dynamic Design",
+    stat: "Dynamic Solutions",
+    title: "3-5X logic path variants",
     description:
-      "Multiple Design Varients at a click of a button",
+      "Multiple logic path concurrence based decisions to ensure Robustness, Reliability & Safety.",
     accent: "#0E7490",
   },
 ];
@@ -925,10 +898,10 @@ function ImpactSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </FadeUp>
 
         <FadeUp delay={0.1}>
-          <h2 className="text-center font-[family-name:var(--font-space-grotesk)] text-4xl font-bold tracking-tight text-[#EAC97C] sm:text-5xl md:text-6xl">
-            Redefining{" "}
-            <span className="text-[#0E7490]">Development</span>{" "}
-            Timelines
+          <h2 className="text-center font-[family-name:var(--font-space-grotesk)] text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl">
+            <span className="text-[#EAC97C]">Redefining{" "}</span>
+            <span className="text-[#0E7490]">Development</span>
+            <span className="text-[#EAC97C]">{" "}Timelines</span>
           </h2>
         </FadeUp>
 
@@ -952,11 +925,7 @@ function ImpactSection({ scrollY }: { scrollY: MotionValue<number> }) {
                   >
                     {item.stat}
                   </div>
-                  <div className="mt-5 flex items-center justify-center gap-2">
-                    <item.icon
-                      className="h-5 w-5"
-                      style={{ color: item.accent }}
-                    />
+                  <div className="mt-5">
                     <h3 className="font-[family-name:var(--font-space-grotesk)] text-lg font-bold text-[#EAC97C]">
                       {item.title}
                     </h3>
@@ -1028,9 +997,39 @@ const teamMembers = [
     ],
     accent: "#EAC97C",
   },
+  // {
+  //   icon: Briefcase,
+  //   image: "/images/chunchreek_singhvi.jpg",
+  //   name: "Chunchreek Singhvi",
+  //   title: "Shareholder",
+  //   description: [
+  //     "Identified the opportunity after 10+ years of hands-on industry experience in the space of embedded engineering management; chased the possibility and driver of the vision.",
+  //     ">20 years as part of startup initiatives spanning across innovative technologies, venture capital and private equity. Delivered successful/failed/sustained operating startups to bloom into global businesses in 15 industries across 10 countries.",
+  //     ">USD 700 Mn in business development, global tech JVs, technology adaptation, product development & operations experiences in India, USA, EU, Thailand & Hong Kong (China).",
+  //     "USD 500 Mn VC-PE fund raising, investment & portfolio management experiences. Investment experience in technology platforms (Optical cables, Embedded Systems for Railways, Security, Defence, Road Transport), real estate, hotels, social impact, fashion.",
+  //     "Smurfit, UC Dublin - Masters in Business; Bachelors in Law; B.A. Economics; Scholar at Eton & Reims.",
+  //   ],
+  //   accent: "#EAC97C",
+  // },
+
+  //add • Supported by a team of:
+  //            Application specific Subject Matter Experts.
+  //            Engineering Interns from the B.Tech programme of IIT Delhi.
+  //            Professional Law, Accounting and Company Secretarial Firms for all Compliance & Documentation.
+  //           
+  {
+    icon: Code,
+    image: "/images/vipul.jpeg",
+    name: "Vipul Lout",
+    subtitle: "Dept. of Electrical Engineering IIT Delhi",
+    title: "Full-Stack Intern",
+    description:
+      "B.Tech graduate in Electrical Engineering from Indian Institute of Technology Delhi.",
+    accent: "#0E7490",
+  },
   {
     icon: Briefcase,
-    image: "/images/chunchreek_singhvi.jpg",
+    image: "/images/man.png",
     name: "Chunchreek Singhvi",
     title: "Shareholder",
     description: [
@@ -1041,16 +1040,6 @@ const teamMembers = [
       "Smurfit, UC Dublin - Masters in Business; Bachelors in Law; B.A. Economics; Scholar at Eton & Reims.",
     ],
     accent: "#EAC97C",
-  },
-  {
-    icon: Code,
-    image: "/images/vipul.jpeg",
-    name: "Vipul Lout",
-    subtitle: "Dept. of Electrical Engineering IIT Delhi",
-    title: "Full-Stack Developer",
-    description:
-      "B.Tech graduate in Electrical Engineering from Indian Institute of Technology Delhi.",
-    accent: "#0E7490",
   },
   {
     icon: BarChart3,
@@ -1209,7 +1198,7 @@ function TeamCard({ member }: { member: (typeof teamMembers)[number] }) {
 
 function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
   return (
-    <section id="leadership" className="relative overflow-hidden py-32">
+    <section id="leadership" className="relative overflow-hidden pt-32 pb-12">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E7490]/30 to-transparent" />
 
       {/* Parallax bg */}
@@ -1234,10 +1223,10 @@ function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </FadeUp>
 
         <FadeUp delay={0.1}>
-          <h2 className="text-center font-[family-name:var(--font-space-grotesk)] text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-            <span className="text-[#EAC97C]">The Minds Driving</span>{" "}
+          <h2 className="text-center font-[family-name:var(--font-space-grotesk)] text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl">
+            <span className="text-gradient-gold">The Minds Driving</span>{" "}
             <span className="text-[#0E7490]">India&apos;s</span>{" "}
-            <span className="text-[#EAC97C]">Tech Sovereignty</span>
+            <span className="text-gradient-gold">Tech Sovereignty</span>
           </h2>
         </FadeUp>
 
@@ -1249,10 +1238,59 @@ function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </FadeUp>
 
         <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {teamMembers.map((member, i) => (
-            <FadeUp key={member.name} delay={0.1 + i * 0.1}>
-              <TeamCard member={member} />
-            </FadeUp>
+          {teamMembers.map((member, i) =>
+            member.image === "/images/man.png" ? (
+              <FadeUp key={member.name} delay={0.1 + i * 0.1}>
+                <div className="flex h-full items-center justify-center">
+                  <img
+                    src="/images/man.png"
+                    alt={member.name}
+                    className="h-64 w-auto object-contain opacity-80"
+                  />
+                </div>
+              </FadeUp>
+            ) : (
+              <FadeUp key={member.name} delay={0.1 + i * 0.1}>
+                <TeamCard member={member} />
+              </FadeUp>
+            )
+          )}
+        </div>
+
+        {/* Bees clustered at center — trademark */}
+        <div className="pointer-events-none relative mt-16 h-40 w-full">
+          {[
+            { size: 45, left: "35%", top: "5%", rotate: 135, opacity: 0.8 },
+            { size: 28, left: "42%", top: "55%", rotate: 155, opacity: 0.6 },
+            { size: 55, left: "48%", top: "10%", rotate: 145, opacity: 0.85 },
+            { size: 20, left: "53%", top: "65%", rotate: 170, opacity: 0.5 },
+            { size: 38, left: "40%", top: "30%", rotate: 140, opacity: 0.7 },
+            { size: 32, left: "56%", top: "40%", rotate: 125, opacity: 0.65 },
+            { size: 50, left: "46%", top: "50%", rotate: 150, opacity: 0.75 },
+            { size: 18, left: "60%", top: "15%", rotate: 130, opacity: 0.45 },
+            { size: 40, left: "52%", top: "0%", rotate: 165, opacity: 0.7 },
+            { size: 24, left: "38%", top: "70%", rotate: 120, opacity: 0.55 },
+            { size: 30, left: "44%", top: "75%", rotate: 145, opacity: 0.6 },
+            { size: 22, left: "58%", top: "60%", rotate: 135, opacity: 0.5 },
+            { size: 35, left: "50%", top: "25%", rotate: 155, opacity: 0.65 },
+          ].map((bee, i) => (
+            <motion.img
+              key={i}
+              src="/images/Bees.png"
+              alt=""
+              initial={{ opacity: 0, scale: 0.5 }}
+              whileInView={{ opacity: bee.opacity, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.05 }}
+              className="absolute"
+              style={{
+                width: bee.size,
+                height: bee.size,
+                left: bee.left,
+                top: bee.top,
+                transform: `rotate(${bee.rotate}deg)`,
+              }}
+            />
           ))}
         </div>
       </div>
@@ -1261,69 +1299,73 @@ function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
 }
 
 function ContactSection() {
-  const [open, setOpen] = useState(false);
-
   return (
-    <section id="contact" className="relative overflow-hidden py-20">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E7490]/30 to-transparent" />
+    <section id="contact" className="relative py-8">
+      {/* Three-column flex layout: side decorations + center content */}
+      <div className="flex items-center justify-between w-full px-1 sm:px-2">
 
-      <div className="relative z-10 mx-auto max-w-6xl px-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="font-[family-name:var(--font-space-grotesk)] text-2xl font-bold tracking-tight text-[#EAC97C] sm:text-3xl">
-              Get in Touch
-            </h2>
-            <p className="mt-1 text-sm text-[#B7AA91]/70">
-              For business inquiries and partnerships
-            </p>
-          </div>
-
-          <button
-            onClick={() => setOpen(!open)}
-            className="glass flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium text-[#EAC97C] ring-1 ring-[#8F7E5E]/20 transition-all duration-300 hover:ring-[#0E7490]/40"
-          >
-            <Mail className="h-4 w-4" />
-            Contact Us
-            <ChevronDown
-              className="h-4 w-4 transition-transform duration-300"
-              style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
-            />
-          </button>
+        {/* ── Left column: honeycomb + bee ── */}
+        <div className="relative flex-shrink-0 flex items-center justify-end">
+          <img
+            src="/images/honeycomb.png"
+            alt=""
+            className="pointer-events-none h-44 w-auto opacity-60 sm:h-60 md:h-72 rotate-180"
+          />
+          {/* Bee flying toward the honeycomb */}
+          <motion.img
+            src="/images/Bees.png"
+            alt=""
+            className="pointer-events-none absolute -right-8 h-12 w-auto sm:h-16"
+            style={{ rotate: 135 }}
+            animate={{ x: [-5, 5, -5], y: [-3, 3, -3] }}
+            transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+          />
         </div>
 
-        <AnimatePresence>
-          {open && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="overflow-hidden"
-            >
-              <div className="mt-8 glass rounded-2xl border border-[#8F7E5E]/20 p-8">
-                <div className="flex items-start gap-4">
-                  <div
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
-                    style={{ backgroundColor: "#0E749012", boxShadow: "0 0 0 2px #0E749030" }}
-                  >
-                    <Mail className="h-5 w-5 text-[#0E7490]" />
-                  </div>
-                  <div>
-                    <h3 className="font-[family-name:var(--font-space-grotesk)] text-sm font-semibold uppercase tracking-wider text-[#EAC97C]">
-                      Email
-                    </h3>
-                    <a
-                      href="mailto:cs@chunchreek.com"
-                      className="mt-2 inline-block text-lg text-[#0E7490] transition-colors hover:text-[#0E7490]/80"
-                    >
-                      cs@chunchreek.com
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* ── Center column: contact content ── */}
+        <div className="relative z-10 flex-1 px-6 text-center">
+          <a
+            href="mailto:cs@chunchreek.com"
+            className="text-lg font-medium text-[#0E7490] transition-colors hover:text-[#0E7490]/80"
+          >
+            cs@chunchreek.com
+          </a>
+
+          <p className="mt-3 text-sm text-[#B7AA91]/60">
+            CIN - U70200HR2025PTC129523
+          </p>
+
+          <div className="mt-5 flex items-center justify-center gap-5">
+            <a href="#" className="text-[#B7AA91]/50 transition-colors hover:text-[#EAC97C]">
+              <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <a href="#" className="text-[#B7AA91]/50 transition-colors hover:text-[#EAC97C]">
+              <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="#" className="text-[#B7AA91]/50 transition-colors hover:text-[#EAC97C]">
+              <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        {/* ── Right column: honeycomb + bee (mirrored) ── */}
+        <div className="relative flex-shrink-0 flex items-center justify-start">
+          <img
+            src="/images/honeycomb.png"
+            alt=""
+            className="pointer-events-none h-44 w-auto opacity-60 sm:h-60 md:h-72 -scale-x-100 rotate-180"
+          />
+          {/* Bee flying toward the right honeycomb */}
+          <motion.img
+            src="/images/Bees.png"
+            alt=""
+            className="pointer-events-none absolute -left-8 h-12 w-auto -scale-x-100 sm:h-16"
+            style={{ rotate: 45 }}
+            animate={{ x: [5, -5, 5], y: [-3, 3, -3] }}
+            transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </div>
+
       </div>
     </section>
   );
@@ -1336,7 +1378,17 @@ export default function Home() {
   const { scrollY } = useScroll();
 
   return (
-    <main>
+    <main className="relative">
+      {/* Global background image */}
+      <div
+        className="pointer-events-none fixed inset-0 z-0"
+        style={{
+          backgroundImage: "url('/images/Background.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
       <HeroSection scrollY={scrollY} />
       <VisionSection scrollY={scrollY} />
       <EngineSection scrollY={scrollY} />

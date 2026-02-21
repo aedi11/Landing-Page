@@ -121,7 +121,75 @@ const DEMO_PROMPTS = [
   },
 ];
 
-/* ── Reasoning Steps Display ────────────────────────────────────────────── */
+/* ── Streaming Reasoning Steps (shown during loading) ─────────────────── */
+
+function StreamingReasoningSteps({ steps }: { steps: ReasoningStep[] }) {
+  return (
+    <div className="mb-6 rounded-xl border border-[#8F7E5E]/20 bg-[#514733]/10 p-5">
+      <div className="mb-4 flex items-center gap-2">
+        <BrainCircuit className="h-4 w-4 text-[#0E7490]" />
+        <h3 className="text-sm font-semibold uppercase tracking-wider text-[#0E7490]">
+          AI Analysis in Progress
+        </h3>
+      </div>
+      <div className="space-y-0">
+        {steps.map((step, i) => (
+          <motion.div
+            key={step.step_number}
+            initial={{ opacity: 0, x: -12 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            className="relative flex gap-3 pb-4 last:pb-0"
+          >
+            {/* Vertical connector line */}
+            {i < steps.length - 1 && (
+              <motion.div
+                initial={{ scaleY: 0 }}
+                animate={{ scaleY: 1 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+                className="absolute left-[11px] top-[24px] h-[calc(100%-12px)] w-px origin-top bg-[#514733]"
+              />
+            )}
+            {/* Step indicator */}
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.2, delay: 0.1 }}
+              className="relative z-10 mt-0.5 flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-[#0E7490]/20 ring-1 ring-[#0E7490]/40"
+            >
+              <CheckCircle2 className="h-3 w-3 text-[#0E7490]" />
+            </motion.div>
+            {/* Content */}
+            <div className="min-w-0 pt-0.5">
+              <span className="text-sm font-medium text-[#EAC97C]">
+                {step.title}
+              </span>
+              <p className="mt-0.5 text-xs leading-relaxed text-[#8F7E5E]">
+                {step.description}
+              </p>
+            </div>
+          </motion.div>
+        ))}
+
+        {/* Pulsing "working" indicator at the end */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="relative flex gap-3 pt-1"
+        >
+          <div className="relative z-10 mt-0.5 flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-[#826015]/20 ring-1 ring-[#826015]/40">
+            <Loader2 className="h-3 w-3 animate-spin text-[#EAC97C]" />
+          </div>
+          <span className="pt-0.5 text-sm text-[#8F7E5E] italic">
+            Processing...
+          </span>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Reasoning Steps Display (final, in response) ────────────────────── */
 
 function ReasoningSteps({ steps }: { steps: ReasoningStep[] }) {
   return (
@@ -180,7 +248,7 @@ function ReasoningSteps({ steps }: { steps: ReasoningStep[] }) {
 function DesignTabs({ designs }: { designs: DesignVariant[] }) {
   const [activeTab, setActiveTab] = useState(0);
 
-  const totalSteps = designs.length > 0 ? 6 : 0; // assume ~6 reasoning steps max for delay calc
+  const totalSteps = designs.length > 0 ? 6 : 0;
   const tabsDelay = totalSteps * 0.3 + 0.2;
 
   return (
@@ -309,7 +377,7 @@ function VariantContent({ design }: { design: DesignVariant }) {
               <th className="py-2 px-3 text-left">Description</th>
               <th className="py-2 px-3 text-left">Qty</th>
               <th className="py-2 px-3 text-left">Specs</th>
-              <th className="py-2 px-3 text-left">Est. Cost</th>
+              <th className="py-2 px-3 text-left">Est. Unit Cost</th>
             </tr>
           </thead>
           <tbody>
@@ -323,11 +391,17 @@ function VariantContent({ design }: { design: DesignVariant }) {
                 <td className="py-2 px-3 text-xs">{row.description}</td>
                 <td className="py-2 px-3">{row.quantity}</td>
                 <td className="py-2 px-3 text-xs">{row.specifications}</td>
-                <td className="py-2 px-3">{row.estimated_unit_cost_usd || "\u2014"}</td>
+                <td className="py-2 px-3 font-medium text-[#EAC97C]">{row.estimated_unit_cost_usd || "\u2014"}</td>
               </tr>
             ))}
           </tbody>
         </table>
+        {design.total_estimated_cost_usd && (
+          <div className="mt-4 flex justify-end border-t border-[#8F7E5E]/30 pt-3">
+            <span className="text-sm text-[#8F7E5E]">Total Estimated Cost: </span>
+            <span className="ml-2 text-sm font-bold text-[#EAC97C]">{design.total_estimated_cost_usd}</span>
+          </div>
+        )}
       </div>
 
       {/* Notes */}
@@ -396,34 +470,13 @@ export default function DemoPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [loadingPhase, setLoadingPhase] = useState(0);
+  const [streamingSteps, setStreamingSteps] = useState<ReasoningStep[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-  // Cycle loading phases for better UX
-  useEffect(() => {
-    if (!loading) {
-      setLoadingPhase(0);
-      return;
-    }
-    const timers = [
-      setTimeout(() => setLoadingPhase(1), 3000),
-      setTimeout(() => setLoadingPhase(2), 8000),
-      setTimeout(() => setLoadingPhase(3), 15000),
-    ];
-    return () => timers.forEach(clearTimeout);
-  }, [loading]);
-
-  const LOADING_MESSAGES = [
-    "Analyzing your requirements...",
-    "Selecting optimal components...",
-    "Generating 3 design variants...",
-    "Finalizing designs & BOM tables...",
-  ];
+  }, [messages, streamingSteps]);
 
   const sendQuery = async (query: string) => {
     if (!query.trim() || loading) return;
@@ -436,9 +489,10 @@ export default function DemoPage() {
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setLoading(true);
+    setStreamingSteps([]);
 
     try {
-      const res = await fetch(`${API_URL}/api/generate-bom`, {
+      const res = await fetch(`${API_URL}/api/generate-bom-stream`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query }),
@@ -449,16 +503,51 @@ export default function DemoPage() {
         throw new Error(err.detail || `HTTP ${res.status}`);
       }
 
-      const data: MultiDesignResponse = await res.json();
+      const reader = res.body?.getReader();
+      if (!reader) throw new Error("No response stream available.");
 
-      const assistantMsg: Message = {
-        id: crypto.randomUUID(),
-        role: "assistant",
-        content: "",
-        data,
-      };
-      setMessages((prev) => [...prev, assistantMsg]);
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
+
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const jsonStr = line.slice(6).trim();
+          if (!jsonStr) continue;
+
+          try {
+            const event = JSON.parse(jsonStr);
+
+            if (event.type === "step") {
+              setStreamingSteps((prev) => [...prev, event.step]);
+            } else if (event.type === "result") {
+              const data: MultiDesignResponse = event.data;
+              const assistantMsg: Message = {
+                id: crypto.randomUUID(),
+                role: "assistant",
+                content: "",
+                data,
+              };
+              setStreamingSteps([]);
+              setMessages((prev) => [...prev, assistantMsg]);
+            } else if (event.type === "error") {
+              throw new Error(event.detail);
+            }
+          } catch (parseErr) {
+            if (parseErr instanceof SyntaxError) continue;
+            throw parseErr;
+          }
+        }
+      }
     } catch (err) {
+      setStreamingSteps([]);
       const errorMsg: Message = {
         id: crypto.randomUUID(),
         role: "assistant",
@@ -504,7 +593,7 @@ export default function DemoPage() {
       {/* Messages area */}
       <div className="flex-1 overflow-y-auto">
         <div className="mx-auto max-w-5xl px-6 py-8">
-          {isEmpty ? (
+          {isEmpty && !loading ? (
             /* Empty state with demo prompts */
             <div className="flex h-full min-h-[60vh] flex-col items-center justify-center">
               <motion.div
@@ -522,7 +611,7 @@ export default function DemoPage() {
                 <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-[#8F7E5E]">
                   Describe your requirements and AEDI will analyze them, then
                   generate 3 optimized battery pack designs — Cost, Performance,
-                  and Space optimized — each with a full Bill of Materials.
+                  and Space optimized — each with a full Bill of Materials*
                 </p>
               </motion.div>
 
@@ -547,6 +636,16 @@ export default function DemoPage() {
                   </motion.button>
                 ))}
               </div>
+
+              {/* Disclaimer note */}
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.6 }}
+                className="mt-6 max-w-2xl text-center text-sm leading-relaxed text-[#8F7E5E]/70 italic"
+              >
+                *Note: This is a concept demo only. For accurate real world results please connect with AEDI.
+              </motion.p>
             </div>
           ) : (
             /* Chat messages */
@@ -579,17 +678,25 @@ export default function DemoPage() {
                 ))}
               </AnimatePresence>
 
+              {/* Loading state with GIF + streaming steps */}
               {loading && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="flex justify-start"
                 >
-                  <div className="flex items-center gap-3 rounded-2xl border border-[#8F7E5E]/15 bg-[#514733]/20 px-5 py-4">
-                    <Loader2 className="h-4 w-4 animate-spin text-[#0E7490]" />
-                    <span className="text-sm text-[#8F7E5E]">
-                      {LOADING_MESSAGES[loadingPhase]}
-                    </span>
+                  <div className="w-full rounded-2xl border border-[#8F7E5E]/15 bg-[#514733]/10 px-5 py-6">
+                    {/* Streaming reasoning steps */}
+                    {streamingSteps.length > 0 ? (
+                      <StreamingReasoningSteps steps={streamingSteps} />
+                    ) : (
+                      <div className="flex items-center justify-center gap-3">
+                        <Loader2 className="h-4 w-4 animate-spin text-[#0E7490]" />
+                        <span className="text-sm text-[#8F7E5E]">
+                          Connecting to AEDI engine...
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               )}
