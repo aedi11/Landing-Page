@@ -1257,42 +1257,6 @@ function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
           )}
         </div>
 
-        {/* Bees clustered at center — trademark */}
-        <div className="pointer-events-none relative mt-16 h-40 w-full">
-          {[
-            { size: 45, left: "35%", top: "5%", rotate: 135, opacity: 0.8 },
-            { size: 28, left: "42%", top: "55%", rotate: 155, opacity: 0.6 },
-            { size: 55, left: "48%", top: "10%", rotate: 145, opacity: 0.85 },
-            { size: 20, left: "53%", top: "65%", rotate: 170, opacity: 0.5 },
-            { size: 38, left: "40%", top: "30%", rotate: 140, opacity: 0.7 },
-            { size: 32, left: "56%", top: "40%", rotate: 125, opacity: 0.65 },
-            { size: 50, left: "46%", top: "50%", rotate: 150, opacity: 0.75 },
-            { size: 18, left: "60%", top: "15%", rotate: 130, opacity: 0.45 },
-            { size: 40, left: "52%", top: "0%", rotate: 165, opacity: 0.7 },
-            { size: 24, left: "38%", top: "70%", rotate: 120, opacity: 0.55 },
-            { size: 30, left: "44%", top: "75%", rotate: 145, opacity: 0.6 },
-            { size: 22, left: "58%", top: "60%", rotate: 135, opacity: 0.5 },
-            { size: 35, left: "50%", top: "25%", rotate: 155, opacity: 0.65 },
-          ].map((bee, i) => (
-            <motion.img
-              key={i}
-              src="/images/Bees.png"
-              alt=""
-              initial={{ opacity: 0, scale: 0.5 }}
-              whileInView={{ opacity: bee.opacity, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.05 }}
-              className="absolute"
-              style={{
-                width: bee.size,
-                height: bee.size,
-                left: bee.left,
-                top: bee.top,
-                transform: `rotate(${bee.rotate}deg)`,
-              }}
-            />
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -1324,16 +1288,20 @@ function ContactSection() {
 
         {/* ── Center column: contact content ── */}
         <div className="relative z-10 flex-1 px-6 text-center">
+          <p className="text-sm font-semibold text-[#EAC97C]/80">
+            Chunchreek Ventures India Private Limited
+          </p>
+
+          <p className="mt-2 text-sm text-[#B7AA91]/60">
+            CIN - U70200HR2025PTC129523
+          </p>
+
           <a
             href="mailto:cs@chunchreek.com"
-            className="text-lg font-medium text-[#0E7490] transition-colors hover:text-[#0E7490]/80"
+            className="mt-2 inline-block text-lg font-medium text-[#0E7490] transition-colors hover:text-[#0E7490]/80"
           >
             cs@chunchreek.com
           </a>
-
-          <p className="mt-3 text-sm text-[#B7AA91]/60">
-            CIN - U70200HR2025PTC129523
-          </p>
 
           <div className="mt-5 flex items-center justify-center gap-5">
             <a href="#" className="text-[#B7AA91]/50 transition-colors hover:text-[#EAC97C]">

@@ -70,7 +70,14 @@ interface Message {
 
 const VARIANT_CONFIG: Record<
   string,
-  { icon: typeof DollarSign; color: string; accent: string; bg: string; ring: string; glow: string }
+  {
+    icon: typeof DollarSign;
+    color: string;
+    accent: string;
+    bg: string;
+    ring: string;
+    glow: string;
+  }
 > = {
   "Cost Optimized": {
     icon: DollarSign,
@@ -260,7 +267,8 @@ function DesignTabs({ designs }: { designs: DesignVariant[] }) {
       {/* Tab bar */}
       <div className="mb-4 flex gap-2 overflow-x-auto">
         {designs.map((d, i) => {
-          const cfg = VARIANT_CONFIG[d.variant_name] || VARIANT_CONFIG["Cost Optimized"];
+          const cfg =
+            VARIANT_CONFIG[d.variant_name] || VARIANT_CONFIG["Cost Optimized"];
           const Icon = cfg.icon;
           const isActive = i === activeTab;
 
@@ -274,7 +282,9 @@ function DesignTabs({ designs }: { designs: DesignVariant[] }) {
                   : "bg-transparent ring-[#514733]/40 text-[#8F7E5E] hover:ring-[#8F7E5E]/40 hover:text-[#B7AA91]"
               }`}
             >
-              <Icon className={`h-4 w-4 ${isActive ? cfg.color : "text-[#8F7E5E] group-hover:text-[#B7AA91]"}`} />
+              <Icon
+                className={`h-4 w-4 ${isActive ? cfg.color : "text-[#8F7E5E] group-hover:text-[#B7AA91]"}`}
+              />
               {d.variant_name}
             </button>
           );
@@ -302,7 +312,8 @@ function DesignTabs({ designs }: { designs: DesignVariant[] }) {
 /* ── Single Variant Content ─────────────────────────────────────────────── */
 
 function VariantContent({ design }: { design: DesignVariant }) {
-  const cfg = VARIANT_CONFIG[design.variant_name] || VARIANT_CONFIG["Cost Optimized"];
+  const cfg =
+    VARIANT_CONFIG[design.variant_name] || VARIANT_CONFIG["Cost Optimized"];
 
   return (
     <div className="space-y-4">
@@ -314,14 +325,21 @@ function VariantContent({ design }: { design: DesignVariant }) {
           border: `1px solid ${cfg.accent}20`,
         }}
       >
-        <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: cfg.accent }}>
+        <p
+          className="text-xs font-semibold uppercase tracking-wider"
+          style={{ color: cfg.accent }}
+        >
           {design.variant_name}
         </p>
-        <p className="mt-1 text-sm text-[#B7AA91]">{design.variant_description}</p>
+        <p className="mt-1 text-sm text-[#B7AA91]">
+          {design.variant_description}
+        </p>
         {design.total_estimated_cost_usd && (
           <p className="mt-2 text-xs text-[#8F7E5E]">
             Estimated Total Cost:{" "}
-            <span className="font-semibold text-[#EAC97C]">{design.total_estimated_cost_usd}</span>
+            <span className="font-semibold text-[#EAC97C]">
+              {design.total_estimated_cost_usd}
+            </span>
           </p>
         )}
       </div>
@@ -355,10 +373,18 @@ function VariantContent({ design }: { design: DesignVariant }) {
         </h3>
         <div className="space-y-3">
           {design.design_choices.map((dc, i) => (
-            <div key={i} className="border-l-2 pl-4" style={{ borderColor: cfg.accent }}>
-              <div className="text-sm font-semibold text-[#EAC97C]">{dc.topic}</div>
+            <div
+              key={i}
+              className="border-l-2 pl-4"
+              style={{ borderColor: cfg.accent }}
+            >
+              <div className="text-sm font-semibold text-[#EAC97C]">
+                {dc.topic}
+              </div>
               <div className="text-sm text-[#C8BAA6]">{dc.decision}</div>
-              <div className="text-xs text-[#8F7E5E] mt-1 italic">{dc.rationale}</div>
+              <div className="text-xs text-[#8F7E5E] mt-1 italic">
+                {dc.rationale}
+              </div>
             </div>
           ))}
         </div>
@@ -387,19 +413,27 @@ function VariantContent({ design }: { design: DesignVariant }) {
                 className="border-b border-[#514733]/40 text-[#C8BAA6] hover:bg-[#514733]/20 transition-colors"
               >
                 <td className="py-2 px-3">{row.item_number}</td>
-                <td className="py-2 px-3 font-medium text-[#B7AA91]">{row.component_name}</td>
+                <td className="py-2 px-3 font-medium text-[#B7AA91]">
+                  {row.component_name}
+                </td>
                 <td className="py-2 px-3 text-xs">{row.description}</td>
                 <td className="py-2 px-3">{row.quantity}</td>
                 <td className="py-2 px-3 text-xs">{row.specifications}</td>
-                <td className="py-2 px-3 font-medium text-[#EAC97C]">{row.estimated_unit_cost_usd || "\u2014"}</td>
+                <td className="py-2 px-3 font-medium text-[#EAC97C]">
+                  {row.estimated_unit_cost_usd || "\u2014"}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
         {design.total_estimated_cost_usd && (
           <div className="mt-4 flex justify-end border-t border-[#8F7E5E]/30 pt-3">
-            <span className="text-sm text-[#8F7E5E]">Total Estimated Cost: </span>
-            <span className="ml-2 text-sm font-bold text-[#EAC97C]">{design.total_estimated_cost_usd}</span>
+            <span className="text-sm text-[#8F7E5E]">
+              Total Estimated Cost:{" "}
+            </span>
+            <span className="ml-2 text-sm font-bold text-[#EAC97C]">
+              {design.total_estimated_cost_usd}
+            </span>
           </div>
         )}
       </div>
@@ -478,7 +512,7 @@ export default function DemoPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, streamingSteps]);
 
-  const sendQuery = async (query: string) => {
+  const sendQuery = (query: string) => {
     if (!query.trim() || loading) return;
 
     const userMsg: Message = {
@@ -488,75 +522,14 @@ export default function DemoPage() {
     };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
-    setLoading(true);
-    setStreamingSteps([]);
 
-    try {
-      const res = await fetch(`${API_URL}/api/generate-bom-stream`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query }),
-      });
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ detail: "Server error" }));
-        throw new Error(err.detail || `HTTP ${res.status}`);
-      }
-
-      const reader = res.body?.getReader();
-      if (!reader) throw new Error("No response stream available.");
-
-      const decoder = new TextDecoder();
-      let buffer = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = lines.pop() || "";
-
-        for (const line of lines) {
-          if (!line.startsWith("data: ")) continue;
-          const jsonStr = line.slice(6).trim();
-          if (!jsonStr) continue;
-
-          try {
-            const event = JSON.parse(jsonStr);
-
-            if (event.type === "step") {
-              setStreamingSteps((prev) => [...prev, event.step]);
-            } else if (event.type === "result") {
-              const data: MultiDesignResponse = event.data;
-              const assistantMsg: Message = {
-                id: crypto.randomUUID(),
-                role: "assistant",
-                content: "",
-                data,
-              };
-              setStreamingSteps([]);
-              setMessages((prev) => [...prev, assistantMsg]);
-            } else if (event.type === "error") {
-              throw new Error(event.detail);
-            }
-          } catch (parseErr) {
-            if (parseErr instanceof SyntaxError) continue;
-            throw parseErr;
-          }
-        }
-      }
-    } catch (err) {
-      setStreamingSteps([]);
-      const errorMsg: Message = {
-        id: crypto.randomUUID(),
-        role: "assistant",
-        content: `Error: ${err instanceof Error ? err.message : "Something went wrong. Make sure the backend is running on " + API_URL}`,
-      };
-      setMessages((prev) => [...prev, errorMsg]);
-    } finally {
-      setLoading(false);
-    }
+    const maintenanceMsg: Message = {
+      id: crypto.randomUUID(),
+      role: "assistant",
+      content:
+        "🛠️ Engineers at work — please come back later. Sorry for the inconvenience!",
+    };
+    setMessages((prev) => [...prev, maintenanceMsg]);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -644,7 +617,8 @@ export default function DemoPage() {
                 transition={{ duration: 0.4, delay: 0.6 }}
                 className="mt-6 max-w-2xl text-center text-sm leading-relaxed text-[#8F7E5E]/70 italic"
               >
-                *Note: This is a concept demo only. For accurate real world results please connect with AEDI.
+                *Note: These are concept demos only. For accurate real world
+                results please connect with AEDI.
               </motion.p>
             </div>
           ) : (
