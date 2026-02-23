@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Send,
   Loader2,
   Zap,
   Battery,
@@ -14,6 +13,9 @@ import {
   Box,
   CheckCircle2,
   BrainCircuit,
+  Search,
+  Lock,
+  HardHat,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -110,21 +112,21 @@ const VARIANT_CONFIG: Record<
 const DEMO_PROMPTS = [
   {
     icon: Battery,
-    label: "48V Electric Scooter Pack",
+    label: "72V High-Speed Scooter",
     prompt:
-      "Design a 48V battery pack and BMS for a high-speed electric scooter with 130 km range, 8.5 kW peak motor power, ~4.0 kWh capacity, under 20 kg total weight, and passive cooling.",
+      "Design a 72V battery pack and BMS for a high-speed electric scooter targeting 130 km range. The powertrain uses a 4.0 kW nominal motor. The battery requires ~4.0 kWh energy capacity. Total pack weight must remain strictly under 20 kg. Optimize cell spacing for passive air cooling. BMS must handle continuous discharge matching 4.0 kW nominal power, with brief peak surges up to 8.5 kW.",
   },
   {
     icon: Zap,
-    label: "72V E-Rickshaw Battery",
+    label: "72V Heavy-Duty Motorcycle",
     prompt:
-      "Design a 72V battery pack and BMS for an electric rickshaw with 100 km range, 3 kW continuous motor, ~5.5 kWh capacity, under 35 kg, and air-cooled thermal management.",
+      "Design a 72V battery pack and BMS for a heavy-duty electric motorcycle targeting 150+ km highway range. The powertrain uses an 8.0 kW nominal motor with peak surges up to 18 kW for overtaking. The battery requires ~6.0 kWh energy capacity. Total pack weight must remain under 35 kg. Use forced air cooling with aluminum heatsink fins. BMS must support continuous discharge at 8.0 kW nominal and brief 18 kW peak bursts (≤5 seconds). Include CAN bus communication for vehicle ECU integration.",
   },
   {
     icon: Cpu,
-    label: "48V E-Bike Power Pack",
+    label: "48V Delivery Scooter",
     prompt:
-      "Design a compact 48V battery pack and BMS for a premium electric bicycle with 80 km range, 750W mid-drive motor, ~1.5 kWh capacity, under 6 kg, using cylindrical cells with passive cooling.",
+      "Design a 48V swappable battery pack and BMS for a light-duty delivery electric scooter targeting 80 km urban range. The powertrain uses a 1.5 kW nominal hub motor with peak load up to 3.5 kW on inclines. The battery requires ~2.0 kWh energy capacity. Total pack weight must remain strictly under 12 kg for easy manual swapping. Use passive cooling only. The pack must be compact enough for standard battery-swap stations. BMS must handle continuous 1.5 kW discharge with 3.5 kW peaks during hill climbs.",
   },
 ];
 
@@ -502,17 +504,15 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 export default function DemoPage() {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [streamingSteps, setStreamingSteps] = useState<ReasoningStep[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, streamingSteps]);
 
-  const sendQuery = (query: string) => {
+  const sendQuery = async (query: string) => {
     if (!query.trim() || loading) return;
 
     const userMsg: Message = {
@@ -521,21 +521,80 @@ export default function DemoPage() {
       content: query,
     };
     setMessages((prev) => [...prev, userMsg]);
-    setInput("");
+    setLoading(true);
+    setStreamingSteps([]);
 
-    const maintenanceMsg: Message = {
-      id: crypto.randomUUID(),
-      role: "assistant",
-      content:
-        "🛠️ Engineers at work — please come back later. Sorry for the inconvenience!",
-    };
-    setMessages((prev) => [...prev, maintenanceMsg]);
-  };
+    try {
+      const res = await fetch(`${API_URL}/api/generate-bom-stream`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query }),
+      });
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendQuery(input);
+      if (!res.ok) {
+        throw new Error(`Server error: ${res.status}`);
+      }
+
+      const reader = res.body?.getReader();
+      if (!reader) throw new Error("No response stream");
+
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n\n");
+        buffer = lines.pop() || "";
+
+        for (const line of lines) {
+          const trimmed = line.replace(/^data: /, "").trim();
+          if (!trimmed) continue;
+
+          try {
+            const event = JSON.parse(trimmed);
+
+            if (event.type === "step") {
+              setStreamingSteps((prev) => [...prev, event.step]);
+            } else if (event.type === "result") {
+              setMessages((prev) => [
+                ...prev,
+                {
+                  id: crypto.randomUUID(),
+                  role: "assistant",
+                  content: "",
+                  data: event.data,
+                },
+              ]);
+            } else if (event.type === "error") {
+              setMessages((prev) => [
+                ...prev,
+                {
+                  id: crypto.randomUUID(),
+                  role: "assistant",
+                  content: `Error: ${event.detail}`,
+                },
+              ]);
+            }
+          } catch {
+            // skip malformed events
+          }
+        }
+      }
+    } catch (err) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          role: "assistant",
+          content: `Failed to connect to AEDI engine. ${err instanceof Error ? err.message : "Please try again."}`,
+        },
+      ]);
+    } finally {
+      setLoading(false);
+      setStreamingSteps([]);
     }
   };
 
@@ -681,35 +740,35 @@ export default function DemoPage() {
         </div>
       </div>
 
-      {/* Input area */}
-      <div className="shrink-0 border-t border-[#514733]/40 bg-[#1E1B1B]/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-5xl items-end gap-3 px-6 py-4">
-          <textarea
-            ref={inputRef}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Describe your battery pack requirements..."
-            rows={1}
-            className="flex-1 resize-none rounded-xl border border-[#8F7E5E]/20 bg-[#514733]/15 px-4 py-3 text-sm text-[#EAC97C] placeholder-[#8F7E5E]/50 outline-none transition-colors focus:border-[#826015]/50 focus:ring-1 focus:ring-[#826015]/30"
-            style={{ maxHeight: 120 }}
-            onInput={(e) => {
-              const el = e.target as HTMLTextAreaElement;
-              el.style.height = "auto";
-              el.style.height = Math.min(el.scrollHeight, 120) + "px";
-            }}
-          />
-          <button
-            onClick={() => sendQuery(input)}
-            disabled={!input.trim() || loading}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#826015] text-[#1E1B1B] transition-all duration-200 hover:bg-[#8F7E5E] disabled:cursor-not-allowed disabled:opacity-30"
+      {/* ── Frozen natural-language search bar ── */}
+      <div className="shrink-0 border-t border-[#514733]/40 bg-[#1E1B1B]/90 backdrop-blur-md px-4 py-4">
+        <div className="mx-auto max-w-5xl">
+          {/* Search bar shell */}
+          <div
+            className="flex items-center gap-3 rounded-2xl border border-[#514733]/50 bg-[#2A2420]/60 px-4 py-3 cursor-not-allowed select-none"
+            title="Coming soon — natural language queries"
           >
-            {loading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Send className="h-4 w-4" />
-            )}
-          </button>
+            {/* Left: lock icon */}
+            <Lock className="h-4 w-4 shrink-0 text-[#826015]/60" />
+
+            {/* Frozen input placeholder */}
+            <div className="flex-1">
+              <p className="text-sm text-[#8F7E5E]/50 italic">
+                
+              </p>
+            </div>
+
+            {/* Right: search icon (disabled look) */}
+            <Search className="h-4 w-4 shrink-0 text-[#514733]/60" />
+          </div>
+
+          {/* Engineers at work notice */}
+          <div className="mt-3 flex items-center justify-center gap-2">
+            <HardHat className="h-3.5 w-3.5 text-[#EAC97C]/60" />
+            <p className="text-xs text-[#8F7E5E]/70 italic">
+              Engineers at work — Please come after sometime. Regret the inconvenience!
+            </p>
+          </div>
         </div>
       </div>
     </div>

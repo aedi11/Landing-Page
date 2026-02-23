@@ -41,7 +41,6 @@ export default function RootLayout({
         className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}
       >
         {children}
-        <Analytics />
       </body>
     </html>
   );
