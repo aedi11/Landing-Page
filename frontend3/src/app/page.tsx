@@ -1275,15 +1275,6 @@ function ContactSection() {
             alt=""
             className="pointer-events-none h-44 w-auto opacity-60 sm:h-60 md:h-72 rotate-180"
           />
-          {/* Bee flying toward the honeycomb */}
-          <motion.img
-            src="/images/Bees.png"
-            alt=""
-            className="pointer-events-none absolute -right-8 h-12 w-auto sm:h-16"
-            style={{ rotate: 135 }}
-            animate={{ x: [-5, 5, -5], y: [-3, 3, -3] }}
-            transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
-          />
         </div>
 
         {/* ── Center column: contact content ── */}
@@ -1294,6 +1285,10 @@ function ContactSection() {
 
           <p className="mt-2 text-sm text-[#B7AA91]/60">
             CIN - U70200HR2025PTC129523
+          </p>
+
+          <p className="mt-1 text-xs text-[#B7AA91]/40">
+            &copy; Chunchreek Ventures India Private Limited
           </p>
 
           <a
@@ -1316,21 +1311,12 @@ function ContactSection() {
           </div>
         </div>
 
-        {/* ── Right column: honeycomb + bee (mirrored) ── */}
-        <div className="relative flex-shrink-0 flex items-center justify-start">
+        {/* ── Right column: honeycomb (mirrored) ── */}
+        <div className="flex-shrink-0">
           <img
             src="/images/honeycomb.png"
             alt=""
             className="pointer-events-none h-44 w-auto opacity-60 sm:h-60 md:h-72 -scale-x-100 rotate-180"
-          />
-          {/* Bee flying toward the right honeycomb */}
-          <motion.img
-            src="/images/Bees.png"
-            alt=""
-            className="pointer-events-none absolute -left-8 h-12 w-auto -scale-x-100 sm:h-16"
-            style={{ rotate: 45 }}
-            animate={{ x: [5, -5, 5], y: [-3, 3, -3] }}
-            transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
           />
         </div>
 
