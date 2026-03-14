@@ -57,7 +57,37 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Large files
+# Large files and Archives
 *.mp4
 *.mov
 *.avi
+*.mkv
+*.webm
+*.zip
+*.tar
+*.gz
+*.rar
+*.7z
+*.iso
+*.bin
+*.exe
+*.dll
+*.xlsx
+*.xlsm
+*.csv
+*.parquet
+*.h5
+*.hdf5
+*.pt
+*.pth
+*.safetensors
+*.onnx
+*.weights
+*.sqlite
+*.db
+
+# Temporary directories
+.tmp/
+tmp/
+temp/
+

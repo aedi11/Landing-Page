@@ -1,0 +1,108 @@
+# encoding: utf-8
+# 2025 R2
+SetScriptVersion(Version="25.2.172")
+system1 = GetSystem(Name="SYS")
+geometry1 = system1.GetContainer(ComponentName="Geometry")
+geometry1.Edit(IsDiscoveryGeometry=True)
+geometry1.Exit()
+geometry1.Edit(IsSpaceClaimGeometry=True)
+Save(Overwrite=True)
+geometry1.Exit()
+modelComponent1 = system1.GetComponent(Name="Model")
+modelComponent1.Refresh()
+model1 = system1.GetContainer(ComponentName="Model")
+model1.Edit()
+model1.Exit()
+geometry1.SetFile(FilePath="C:/Users/Divyansh Kumar/Downloads/48V100AhPack.step")
+engineeringData1 = system1.GetContainer(ComponentName="Engineering Data")
+matl1 = engineeringData1.CreateMaterial(Name="Copper Bussbar")
+matl2 = engineeringData1.CreateMaterial(Name="Cell Casing")
+matlProp1 = matl1.CreateProperty(
+    Name="Thermal Conductivity",
+    Behavior="Isotropic",
+    Qualifiers={"Definition": "", "Behavior": "Isotropic"})
+matlProp1.SetData(
+    Index=-1,
+    Variables=["Thermal Conductivity"],
+    Values=[["8890 [W m^-1 C^-1]"]])
+matlProp1.SetData(
+    Variables=["Thermal Conductivity"],
+    Values=[["387 [W m^-1 C^-1]"]])
+favorites1 = EngData.LoadFavoriteItems()
+library1 = EngData.OpenLibrary(
+    Name="General Materials",
+    Source="General_Materials.xml")
+EngData.EnableFilter(Enable=False)
+matlProp2 = matl1.CreateProperty(
+    Name="Density",
+    Qualifiers={"Definition": "", "Behavior": ""})
+matlProp2.SetData(
+    Index=-1,
+    Variables=["Density"],
+    Values=[["8890 [kg m^-3]"]])
+matlProp3 = matl1.CreateProperty(
+    Name="Specific Heat",
+    Definition="Constant Pressure",
+    Qualifiers={"Definition": "Constant Pressure", "Behavior": ""})
+matlProp3.SetData(
+    Index=-1,
+    Variables=["Specific Heat"],
+    Values=[["385 [J kg^-1 C^-1]"]])
+matlProp4 = matl1.CreateProperty(
+    Name="Resistivity",
+    Behavior="Isotropic",
+    Qualifiers={"Definition": "", "Behavior": "Isotropic"})
+matlProp4.SetData(
+    Index=-1,
+    Variables=["Resistivity"],
+    Values=[["1.68E-08 [ohm m]"]])
+matlProp5 = matl2.CreateProperty(
+    Name="Thermal Conductivity",
+    Behavior="Isotropic",
+    Qualifiers={"Definition": "", "Behavior": "Isotropic"})
+matlProp6 = matl2.CreateProperty(
+    Name="Density",
+    Qualifiers={"Definition": "", "Behavior": ""})
+matlProp6.SetData(
+    Index=-1,
+    Variables=["Density"],
+    Values=[["2730 [kg m^-3]"]])
+matlProp5.SetData(
+    Index=-1,
+    Variables=["Thermal Conductivity"],
+    Values=[["190 [W m^-1 C^-1]"]])
+matlProp7 = matl2.CreateProperty(
+    Name="Specific Heat",
+    Definition="Constant Pressure",
+    Qualifiers={"Definition": "Constant Pressure", "Behavior": ""})
+matlProp7.SetData(
+    Index=-1,
+    Variables=["Specific Heat"],
+    Values=[["893 [J kg^-1 C^-1]"]])
+matlProp6.SetData(
+    Variables=["Density"],
+    Values=[["2200 [kg m^-3]"]])
+matlProp7.SetData(
+    Variables=["Specific Heat"],
+    Values=[["1000 [J kg^-1 C^-1]"]])
+matlProp5.Delete(Behavior="Isotropic")
+matlProp8 = matl2.CreateProperty(
+    Name="Thermal Conductivity",
+    Behavior="Orthotropic",
+    Qualifiers={"Definition": "", "Behavior": "Orthotropic"})
+matlProp8.SetData(
+    Index=-1,
+    Variables=["Thermal Conductivity X direction"],
+    Values=[["25 [W m^-1 C^-1]"]])
+matlProp8.SetData(
+    Variables=["Thermal Conductivity Y direction"],
+    Values=[["1 [W m^-1 C^-1]"]])
+matlProp8.SetData(
+    Variables=["Thermal Conductivity Z direction"],
+    Values=[["25 [W m^-1 C^-1]"]])
+Save(Overwrite=True)
+modelComponent1.Refresh()
+model1.Edit()
+Save(Overwrite=True)
+model1.Exit()
+Save(Overwrite=True)

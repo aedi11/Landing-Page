@@ -13,7 +13,6 @@ import {
   Rocket,
   ArrowRight,
   FileText,
-  ChevronDown,
   Cpu,
   Layers,
   ShieldCheck,
@@ -298,20 +297,19 @@ function HeroSection({ scrollY }: { scrollY: MotionValue<number> }) {
           </div>
         </FadeUp>
 
-        {/* Scroll indicator */}
+        {/* NVIDIA Inception badge */}
         <FadeUp delay={0.5}>
           <motion.div
-            className="mt-20 flex justify-center"
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="mt-20 flex items-center justify-center"
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           >
-            <a
-              href="#vision"
-              className="flex flex-col items-center gap-1 text-xs font-medium uppercase tracking-widest text-[#0E7490] transition-colors hover:text-[#EAC97C]"
-            >
-              Scroll
-              <ChevronDown className="h-4 w-4" />
-            </a>
+            <span className="text-3xl font-medium text-[#EAC97C]">Part of</span>
+            <img
+              src="/images/nvidia.png"
+              alt="NVIDIA Inception"
+              className="h-50 w-auto object-contain"
+            />
           </motion.div>
         </FadeUp>
       </div>

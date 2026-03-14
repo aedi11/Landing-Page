@@ -112,9 +112,9 @@ const VARIANT_CONFIG: Record<
 const DEMO_PROMPTS = [
   {
     icon: Battery,
-    label: "72V High-Speed Scooter",
+    label: "48V 100Ah Rack-Mount LiFePO4 Battery Pack",
     prompt:
-      "Design a 72V battery pack and BMS for a high-speed electric scooter targeting 130 km range. The powertrain uses a 4.0 kW nominal motor. The battery requires ~4.0 kWh energy capacity. Total pack weight must remain strictly under 20 kg. Optimize cell spacing for passive air cooling. BMS must handle continuous discharge matching 4.0 kW nominal power, with brief peak surges up to 8.5 kW.",
+      "Design a 48V 100Ah rack-mount LiFePO4 battery pack for telecom backup power (BTS/tower application). The pack must have integrated BMS with 100A continuous discharge, MCB protection (125A), WiFi remote monitoring capability, LCD display interface, and 19-inch rack-mount enclosure. Target use: outdoor telecom cabinets requiring -48V DC UPS backup",
   },
   {
     icon: Zap,

@@ -1,0 +1,15 @@
+# encoding: utf-8
+# 2025 R2
+SetScriptVersion(Version="25.2.172")
+system1 = GetSystem(Name="SYS")
+model1 = system1.GetContainer(ComponentName="Model")
+model1.Edit()
+model1.Exit()
+geometry1 = system1.GetContainer(ComponentName="Geometry")
+geometry1.Edit(IsDiscoveryGeometry=True)
+geometry1.Edit(IsDiscoveryGeometry=True)
+geometryComponent1 = system1.GetComponent(Name="Geometry")
+geometryComponent1.Reset()
+geometry1.Edit(IsDiscoveryGeometry=True)
+geometry1.Exit()
+Save(Overwrite=True)

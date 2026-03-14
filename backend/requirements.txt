@@ -1,8 +1,31 @@
+# AEDI Backend — Combined Dependencies
+# Covers: main.py (BOM generator) + AEDI_workflow (11-step pipeline)
+# Install: pip install -r requirements.txt
+
+# ── Web Framework ─────────────────────────────────────────────────────────────
 fastapi==0.115.6
 uvicorn==0.34.0
-pandas==2.2.3
+
+# ── Data Validation ───────────────────────────────────────────────────────────
 pydantic==2.10.4
-openai>=1.58.1
-openpyxl==3.1.5
+
+# ── Environment & Config ──────────────────────────────────────────────────────
 python-dotenv==1.0.1
-supabase
+
+# ── Database ──────────────────────────────────────────────────────────────────
+supabase>=2.0.0
+
+# ── OpenAI / LLM ─────────────────────────────────────────────────────────────
+openai>=1.58.1
+langchain>=0.2.0
+langchain-openai>=0.1.0
+
+# ── HTTP Client ───────────────────────────────────────────────────────────────
+httpx>=0.25.0
+
+# ── Data Processing (for upload scripts) ─────────────────────────────────────
+pandas==2.2.3
+openpyxl==3.1.5
+
+# ── Tunneling (for local dev + n8n cloud) ────────────────────────────────────
+pyngrok>=7.0.0

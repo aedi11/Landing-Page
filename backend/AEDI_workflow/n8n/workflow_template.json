@@ -1,0 +1,293 @@
+{
+  "name": "AEDI Battery Pack Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "aedi-pipeline",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.FASTAPI_BASE_URL}}/api/v1/step1/parse-requirements",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ query: $json.body.query }) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "step1-parse",
+      "name": "Step 1: Parse Requirements",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "confidence-check",
+              "leftValue": "={{ $json.confidence }}",
+              "rightValue": 0.8,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-confidence",
+      "name": "IF: Confidence >= 0.8",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ status: 'needs_clarification', follow_up_questions: $json.follow_up_questions }) }}",
+        "options": {
+          "responseCode": 422
+        }
+      },
+      "id": "respond-clarify",
+      "name": "Respond: Need Clarification",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [900, 480]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.FASTAPI_BASE_URL}}/api/v1/step2/query-rules",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "step2-rules",
+      "name": "Step 2: Query Rules",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [900, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.FASTAPI_BASE_URL}}/api/v1/step3/compute-candidates",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ requirements: $('Step 1: Parse Requirements').item.json, rules: $json }) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "step3-size",
+      "name": "Step 3: Compute Candidates",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.FASTAPI_BASE_URL}}/api/v1/step4/validate",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ candidates: $json, requirements: $('Step 1: Parse Requirements').item.json, rules: $('Step 2: Query Rules').item.json }) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "step4-validate",
+      "name": "Step 4: Validate",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1340, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.FASTAPI_BASE_URL}}/api/v1/step5/expand",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ candidates: $json, app_type: $('Step 1: Parse Requirements').item.json.application_type }) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "step5-expand",
+      "name": "Step 5: Expand",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1560, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.FASTAPI_BASE_URL}}/api/v1/step6/thermal-filter",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ variants: $json, requirements: $('Step 1: Parse Requirements').item.json }) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "step6-thermal",
+      "name": "Step 6: Thermal Filter",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1780, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.FASTAPI_BASE_URL}}/api/v1/step7/rank-preliminary",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "step7-rank",
+      "name": "Step 7: Preliminary Rank",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2000, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.FASTAPI_BASE_URL}}/api/v1/step10/rank-final",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ candidates: $('Step 7: Preliminary Rank').item.json, thermal_results: $json }) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "step10-rerank",
+      "name": "Step 10: Final Rank",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2440, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.FASTAPI_BASE_URL}}/api/v1/step11/generate-report",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ candidates: $json, requirements: $('Step 1: Parse Requirements').item.json }) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "step11-report",
+      "name": "Step 11: Generate Report",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2660, 180]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "respond-success",
+      "name": "Respond: Final Report",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [2880, 180]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [{"node": "Step 1: Parse Requirements", "type": "main", "index": 0}]
+      ]
+    },
+    "Step 1: Parse Requirements": {
+      "main": [
+        [{"node": "IF: Confidence >= 0.8", "type": "main", "index": 0}]
+      ]
+    },
+    "IF: Confidence >= 0.8": {
+      "main": [
+        [{"node": "Step 2: Query Rules", "type": "main", "index": 0}],
+        [{"node": "Respond: Need Clarification", "type": "main", "index": 0}]
+      ]
+    },
+    "Step 2: Query Rules": {
+      "main": [
+        [{"node": "Step 3: Compute Candidates", "type": "main", "index": 0}]
+      ]
+    },
+    "Step 3: Compute Candidates": {
+      "main": [
+        [{"node": "Step 4: Validate", "type": "main", "index": 0}]
+      ]
+    },
+    "Step 4: Validate": {
+      "main": [
+        [{"node": "Step 5: Expand", "type": "main", "index": 0}]
+      ]
+    },
+    "Step 5: Expand": {
+      "main": [
+        [{"node": "Step 6: Thermal Filter", "type": "main", "index": 0}]
+      ]
+    },
+    "Step 6: Thermal Filter": {
+      "main": [
+        [{"node": "Step 7: Preliminary Rank", "type": "main", "index": 0}]
+      ]
+    },
+    "Step 7: Preliminary Rank": {
+      "main": [
+        [{"node": "Step 10: Final Rank", "type": "main", "index": 0}]
+      ]
+    },
+    "Step 10: Final Rank": {
+      "main": [
+        [{"node": "Step 11: Generate Report", "type": "main", "index": 0}]
+      ]
+    },
+    "Step 11: Generate Report": {
+      "main": [
+        [{"node": "Respond: Final Report", "type": "main", "index": 0}]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [
+    {"name": "AEDI"},
+    {"name": "battery-pipeline"}
+  ]
+}
