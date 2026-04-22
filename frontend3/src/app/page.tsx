@@ -297,19 +297,34 @@ function HeroSection({ scrollY }: { scrollY: MotionValue<number> }) {
           </div>
         </FadeUp>
 
-        {/* NVIDIA Inception badge */}
+        {/* Partner logos badge */}
         <FadeUp delay={0.5}>
           <motion.div
-            className="mt-20 flex items-center justify-center"
+            className="mt-20 flex flex-col items-center justify-center gap-4"
             animate={{ y: [0, -6, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           >
-            <span className="text-3xl font-medium text-[#EAC97C]">Part of</span>
-            <img
-              src="/images/nvidia.png"
-              alt="NVIDIA Inception"
-              className="h-50 w-auto object-contain"
-            />
+            <span className="text-2xl font-medium text-[#EAC97C]">In association with</span>
+            <div className="flex flex-wrap items-center justify-center gap-8">
+              {/* IIT Delhi logo */}
+              <div className="flex flex-col items-center gap-2">
+                <img
+                  src="/images/iitd_logo.png"
+                  alt="IIT Delhi"
+                  className="h-36 w-auto object-contain"
+                />
+                <span className="text-xs font-medium tracking-wide text-[#B7AA91]/70">IIT Delhi</span>
+              </div>
+              {/* NVIDIA logo */}
+              <div className="flex flex-col items-center gap-2">
+                <img
+                  src="/images/nvidia.png"
+                  alt="NVIDIA Inception"
+                  className="h-36 w-auto object-contain"
+                />
+                <span className="text-xs font-medium tracking-wide text-[#B7AA91]/70">NVIDIA Inception</span>
+              </div>
+            </div>
           </motion.div>
         </FadeUp>
       </div>
@@ -1291,6 +1306,12 @@ function ContactSection() {
             <span className="text-[#EAC97C]/80 font-medium">
               Chunchreek Ventures India Private Limited (CVIL)
             </span>
+          </p>
+
+          {/* Address */}
+          <p className="mt-3 text-xs leading-relaxed text-[#B7AA91]/60">
+            📍 2C1B, Research and Innovation Park, Indian Institute of Technology (IIT) Delhi,<br />
+            Hauz Khas, New Delhi – 110016, India
           </p>
 
           {/* Copyright */}
