@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
@@ -27,6 +27,18 @@ export const metadata: Metadata = {
     "NVIDIA Inception",
     "Hardware Innovation",
   ],
+  applicationName: "AEDI",
+  formatDetection: {
+    telephone: false,
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#1E1B1B",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({

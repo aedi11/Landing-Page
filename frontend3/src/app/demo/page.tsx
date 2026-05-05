@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   Loader2,
   Zap,
@@ -500,17 +500,34 @@ function AssistantResponse({ data }: { data: MultiDesignResponse }) {
 
 /* ── Main page ──────────────────────────────────────────────────────────── */
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+function getApiBaseUrl() {
+  const envUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
+  if (envUrl) {
+    return envUrl.replace(/\/$/, "");
+  }
+
+  if (typeof window !== "undefined") {
+    const { hostname } = window.location;
+    if (hostname === "localhost" || hostname === "127.0.0.1") {
+      return "http://localhost:8000";
+    }
+  }
+
+  return "";
+}
 
 export default function DemoPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [streamingSteps, setStreamingSteps] = useState<ReasoningStep[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, streamingSteps]);
+    messagesEndRef.current?.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+    });
+  }, [messages, prefersReducedMotion, streamingSteps]);
 
   const sendQuery = async (query: string) => {
     if (!query.trim() || loading) return;
@@ -525,7 +542,14 @@ export default function DemoPage() {
     setStreamingSteps([]);
 
     try {
-      const res = await fetch(`${API_URL}/api/generate-bom-stream`, {
+      const apiBaseUrl = getApiBaseUrl();
+      if (!apiBaseUrl) {
+        throw new Error(
+          "Production API is not configured. Set NEXT_PUBLIC_API_URL in Vercel to the HTTPS backend URL."
+        );
+      }
+
+      const res = await fetch(`${apiBaseUrl}/api/generate-bom-stream`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query }),
@@ -589,7 +613,11 @@ export default function DemoPage() {
         {
           id: crypto.randomUUID(),
           role: "assistant",
-          content: `Failed to connect to AEDI engine. ${err instanceof Error ? err.message : "Please try again."}`,
+          content: `Failed to connect to AEDI engine. ${
+            err instanceof Error
+              ? err.message
+              : "Please try again after confirming the API URL is reachable over HTTPS."
+          }`,
         },
       ]);
     } finally {
@@ -601,7 +629,7 @@ export default function DemoPage() {
   const isEmpty = messages.length === 0;
 
   return (
-    <div className="flex h-screen flex-col bg-[#1E1B1B]">
+    <div className="flex min-h-[100dvh] flex-col bg-[#1E1B1B]">
       {/* Header */}
       <header className="shrink-0 border-b border-[#514733]/40 bg-[#1E1B1B]/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center gap-4 px-6 py-4">
@@ -741,7 +769,7 @@ export default function DemoPage() {
       </div>
 
       {/* ── Frozen natural-language search bar ── */}
-      <div className="shrink-0 border-t border-[#514733]/40 bg-[#1E1B1B]/90 backdrop-blur-md px-4 py-4">
+      <div className="ios-safe-bottom shrink-0 border-t border-[#514733]/40 bg-[#1E1B1B]/90 px-4 py-4 backdrop-blur-md">
         <div className="mx-auto max-w-5xl">
           {/* Search bar shell */}
           <div
