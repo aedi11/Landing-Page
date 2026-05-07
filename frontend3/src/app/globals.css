@@ -36,10 +36,12 @@ html {
   background-color: #1E1B1B;
 }
 
-img,
-video {
-  max-width: 100%;
-  height: auto;
+@layer base {
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 /* Custom scrollbar */
