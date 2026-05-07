@@ -130,74 +130,6 @@ const DEMO_PROMPTS = [
   },
 ];
 
-/* ── Streaming Reasoning Steps (shown during loading) ─────────────────── */
-
-function StreamingReasoningSteps({ steps }: { steps: ReasoningStep[] }) {
-  return (
-    <div className="mb-6 rounded-xl border border-[#8F7E5E]/20 bg-[#514733]/10 p-5">
-      <div className="mb-4 flex items-center gap-2">
-        <BrainCircuit className="h-4 w-4 text-[#0E7490]" />
-        <h3 className="text-sm font-semibold uppercase tracking-wider text-[#0E7490]">
-          AI Analysis in Progress
-        </h3>
-      </div>
-      <div className="space-y-0">
-        {steps.map((step, i) => (
-          <motion.div
-            key={step.step_number}
-            initial={{ opacity: 0, x: -12 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-            className="relative flex gap-3 pb-4 last:pb-0"
-          >
-            {/* Vertical connector line */}
-            {i < steps.length - 1 && (
-              <motion.div
-                initial={{ scaleY: 0 }}
-                animate={{ scaleY: 1 }}
-                transition={{ duration: 0.3, delay: 0.2 }}
-                className="absolute left-[11px] top-[24px] h-[calc(100%-12px)] w-px origin-top bg-[#514733]"
-              />
-            )}
-            {/* Step indicator */}
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.2, delay: 0.1 }}
-              className="relative z-10 mt-0.5 flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-[#0E7490]/20 ring-1 ring-[#0E7490]/40"
-            >
-              <CheckCircle2 className="h-3 w-3 text-[#0E7490]" />
-            </motion.div>
-            {/* Content */}
-            <div className="min-w-0 pt-0.5">
-              <span className="text-sm font-medium text-[#EAC97C]">
-                {step.title}
-              </span>
-              <p className="mt-0.5 text-xs leading-relaxed text-[#8F7E5E]">
-                {step.description}
-              </p>
-            </div>
-          </motion.div>
-        ))}
-
-        {/* Pulsing "working" indicator at the end */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="relative flex gap-3 pt-1"
-        >
-          <div className="relative z-10 mt-0.5 flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-[#826015]/20 ring-1 ring-[#826015]/40">
-            <Loader2 className="h-3 w-3 animate-spin text-[#EAC97C]" />
-          </div>
-          <span className="pt-0.5 text-sm text-[#8F7E5E] italic">
-            Processing...
-          </span>
-        </motion.div>
-      </div>
-    </div>
-  );
-}
-
 /* ── Reasoning Steps Display (final, in response) ────────────────────── */
 
 function ReasoningSteps({ steps }: { steps: ReasoningStep[] }) {
@@ -519,7 +451,6 @@ function getApiBaseUrl() {
 export default function DemoPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
-  const [streamingSteps, setStreamingSteps] = useState<ReasoningStep[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
 
@@ -527,7 +458,7 @@ export default function DemoPage() {
     messagesEndRef.current?.scrollIntoView({
       behavior: prefersReducedMotion ? "auto" : "smooth",
     });
-  }, [messages, prefersReducedMotion, streamingSteps]);
+  }, [messages, prefersReducedMotion]);
 
   const sendQuery = async (query: string) => {
     if (!query.trim() || loading) return;
@@ -539,7 +470,6 @@ export default function DemoPage() {
     };
     setMessages((prev) => [...prev, userMsg]);
     setLoading(true);
-    setStreamingSteps([]);
 
     try {
       const apiBaseUrl = getApiBaseUrl();
@@ -549,64 +479,40 @@ export default function DemoPage() {
         );
       }
 
-      const res = await fetch(`${apiBaseUrl}/api/generate-bom-stream`, {
+      const res = await fetch(`${apiBaseUrl}/api/generate-bom`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query }),
       });
 
       if (!res.ok) {
-        throw new Error(`Server error: ${res.status}`);
-      }
+        let detail = `Server error: ${res.status}`;
+        const rawError = await res.text();
 
-      const reader = res.body?.getReader();
-      if (!reader) throw new Error("No response stream");
-
-      const decoder = new TextDecoder();
-      let buffer = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n\n");
-        buffer = lines.pop() || "";
-
-        for (const line of lines) {
-          const trimmed = line.replace(/^data: /, "").trim();
-          if (!trimmed) continue;
-
-          try {
-            const event = JSON.parse(trimmed);
-
-            if (event.type === "step") {
-              setStreamingSteps((prev) => [...prev, event.step]);
-            } else if (event.type === "result") {
-              setMessages((prev) => [
-                ...prev,
-                {
-                  id: crypto.randomUUID(),
-                  role: "assistant",
-                  content: "",
-                  data: event.data,
-                },
-              ]);
-            } else if (event.type === "error") {
-              setMessages((prev) => [
-                ...prev,
-                {
-                  id: crypto.randomUUID(),
-                  role: "assistant",
-                  content: `Error: ${event.detail}`,
-                },
-              ]);
-            }
-          } catch {
-            // skip malformed events
+        try {
+          const errorBody = JSON.parse(rawError);
+          if (typeof errorBody?.detail === "string" && errorBody.detail.trim()) {
+            detail = errorBody.detail;
+          }
+        } catch {
+          if (rawError.trim()) {
+            detail = rawError.trim();
           }
         }
+
+        throw new Error(detail);
       }
+
+      const data: MultiDesignResponse = await res.json();
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          role: "assistant",
+          content: "",
+          data,
+        },
+      ]);
     } catch (err) {
       setMessages((prev) => [
         ...prev,
@@ -622,7 +528,6 @@ export default function DemoPage() {
       ]);
     } finally {
       setLoading(false);
-      setStreamingSteps([]);
     }
   };
 
@@ -739,7 +644,7 @@ export default function DemoPage() {
                 ))}
               </AnimatePresence>
 
-              {/* Loading state with GIF + streaming steps */}
+              {/* Loading state */}
               {loading && (
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -747,17 +652,15 @@ export default function DemoPage() {
                   className="flex justify-start"
                 >
                   <div className="w-full rounded-2xl border border-[#8F7E5E]/15 bg-[#514733]/10 px-5 py-6">
-                    {/* Streaming reasoning steps */}
-                    {streamingSteps.length > 0 ? (
-                      <StreamingReasoningSteps steps={streamingSteps} />
-                    ) : (
-                      <div className="flex items-center justify-center gap-3">
-                        <Loader2 className="h-4 w-4 animate-spin text-[#0E7490]" />
-                        <span className="text-sm text-[#8F7E5E]">
-                          Connecting to AEDI engine...
-                        </span>
-                      </div>
-                    )}
+                    <div className="flex flex-col items-center justify-center gap-3 text-center">
+                      <Loader2 className="h-4 w-4 animate-spin text-[#0E7490]" />
+                      <span className="text-sm text-[#8F7E5E]">
+                        Generating AEDI design variants...
+                      </span>
+                      <span className="text-xs text-[#8F7E5E]/80">
+                        Waiting for the final BOM response from the backend.
+                      </span>
+                    </div>
                   </div>
                 </motion.div>
               )}

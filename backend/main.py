@@ -1,3 +1,4 @@
+import asyncio
 import os
 import json
 
@@ -358,19 +359,38 @@ STREAMING_STEPS = [
 ]
 
 
-def web_search_component_prices(query: str) -> str:
-    """Use OpenAI Responses API with web search to get current component pricing."""
-    try:
-        response = client.responses.create(
-            model="gpt-4o-mini",
-            tools=[{"type": "web_search_preview"}],
-            input=f"Search for current 2025 market prices of battery components for 2-wheeler EV packs. "
-                  f"Focus on: {query}. "
-                  f"Return a concise summary of prices in USD for each component found.",
-        )
-        return response.output_text or ""
-    except Exception as e:
-        return f"[Web search unavailable: {e}]"
+MAX_COMPLETION_TOKENS = 4500
+
+
+def build_user_message(query: str) -> str:
+    component_data = load_component_data()
+    return (
+        f"## User Requirements\n{query}\n\n"
+        f"## Component Database\n{component_data}\n\n"
+        "## Pricing Guidance\n"
+        "Use the pricing ranges already provided in the system prompt and your built-in market knowledge. "
+        "Do not wait for any external web search."
+    )
+
+
+def generate_bom_result(query: str) -> MultiDesignResponse:
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": build_user_message(query)},
+        ],
+        response_format={"type": "json_object"},
+        temperature=0.3,
+        max_tokens=MAX_COMPLETION_TOKENS,
+    )
+
+    raw = response.choices[0].message.content
+    if not raw:
+        raise HTTPException(status_code=502, detail="LLM returned empty response.")
+
+    parsed = json.loads(raw)
+    return MultiDesignResponse(**parsed)
 
 
 @app.post("/api/generate-bom-stream")
@@ -379,51 +399,18 @@ async def generate_bom_stream(request: GenerateBOMRequest):
     if not request.query.strip():
         raise HTTPException(status_code=400, detail="Query cannot be empty.")
 
-    import asyncio
-
     async def event_stream():
-        # Send reasoning steps progressively
         for step in STREAMING_STEPS:
             yield f"data: {json.dumps({'type': 'step', 'step': step})}\n\n"
-            await asyncio.sleep(3)
-
-        # Fetch current pricing data via web search
-        pricing_context = web_search_component_prices(
-            "lithium-ion 18650 21700 cells, BMS ICs (BQ76952, ADBMS1818), "
-            "battery pack enclosures, nickel strips, XT60 connectors for electric scooter rickshaw"
-        )
-
-        # Load cell database
-        component_data = load_component_data()
-        user_message = (
-            f"## User Requirements\n{request.query}\n\n"
-            f"## Component Database\n{component_data}\n\n"
-            f"## Current Market Pricing Reference (from web search)\n{pricing_context}"
-        )
+            await asyncio.sleep(0)
 
         try:
-            response = client.chat.completions.create(
-                model="gpt-4o-mini",
-                messages=[
-                    {"role": "system", "content": SYSTEM_PROMPT},
-                    {"role": "user", "content": user_message},
-                ],
-                response_format={"type": "json_object"},
-                temperature=0.3,
-                max_tokens=10000,
-            )
-
-            raw = response.choices[0].message.content
-            if not raw:
-                yield f"data: {json.dumps({'type': 'error', 'detail': 'LLM returned empty response.'})}\n\n"
-                return
-
-            parsed = json.loads(raw)
-            result = MultiDesignResponse(**parsed)
+            result = generate_bom_result(request.query)
             yield f"data: {json.dumps({'type': 'result', 'data': result.model_dump()})}\n\n"
-
         except json.JSONDecodeError as e:
             yield f"data: {json.dumps({'type': 'error', 'detail': f'LLM returned invalid JSON: {e}'})}\n\n"
+        except HTTPException as e:
+            yield f"data: {json.dumps({'type': 'error', 'detail': e.detail})}\n\n"
         except Exception as e:
             yield f"data: {json.dumps({'type': 'error', 'detail': str(e)})}\n\n"
 
@@ -437,39 +424,12 @@ async def generate_bom(request: GenerateBOMRequest):
     if not request.query.strip():
         raise HTTPException(status_code=400, detail="Query cannot be empty.")
 
-    component_data = load_component_data()
-    pricing_context = web_search_component_prices(
-        "lithium-ion 18650 21700 cells, BMS ICs, battery pack components for electric scooter"
-    )
-
-    user_message = (
-        f"## User Requirements\n{request.query}\n\n"
-        f"## Component Database\n{component_data}\n\n"
-        f"## Current Market Pricing Reference (from web search)\n{pricing_context}"
-    )
-
     try:
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": user_message},
-            ],
-            response_format={"type": "json_object"},
-            temperature=0.3,
-            max_tokens=10000,
-        )
-
-        raw = response.choices[0].message.content
-        if not raw:
-            raise HTTPException(status_code=502, detail="LLM returned empty response.")
-
-        parsed = json.loads(raw)
-        result = MultiDesignResponse(**parsed)
-        return result
-
+        return generate_bom_result(request.query)
     except json.JSONDecodeError as e:
         raise HTTPException(status_code=502, detail=f"LLM returned invalid JSON: {e}")
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
