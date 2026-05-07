@@ -14,10 +14,25 @@ load_dotenv(override=True)
 # ── App ───────────────────────────────────────────────────────────────────────
 app = FastAPI(title="AEDI BOM Generator", version="0.3.0")
 
+DEFAULT_CORS_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://chunchreek.com",
+    "https://www.chunchreek.com",
+]
+
+
+def get_allowed_origins() -> list[str]:
+    raw_origins = os.getenv("CORS_ORIGINS", "")
+    env_origins = [origin.strip().rstrip("/") for origin in raw_origins.split(",") if origin.strip()]
+    return list(dict.fromkeys(DEFAULT_CORS_ORIGINS + env_origins))
+
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=get_allowed_origins(),
+    allow_origin_regex=r"https://.*\.vercel\.app",
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
