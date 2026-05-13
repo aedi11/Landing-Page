@@ -27,18 +27,21 @@ export const metadata: Metadata = {
     "NVIDIA Inception",
     "Hardware Innovation",
   ],
-  applicationName: "AEDI",
-  formatDetection: {
-    telephone: false,
+  // iOS Safari home-screen web app support
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
   },
 };
 
+// Separate viewport export (required by Next.js 14+)
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  viewportFit: "cover",
+  maximumScale: 5,
+  // Prevents iOS virtual keyboard from resizing the viewport and breaking fixed elements
+  interactiveWidget: "resizes-content",
   themeColor: "#1E1B1B",
-  colorScheme: "dark",
 };
 
 export default function RootLayout({
