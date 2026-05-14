@@ -322,7 +322,7 @@ function HeroSection({ scrollY }: { scrollY: MotionValue<number> }) {
         <FadeUp delay={0.5}>
           <div className="mt-20 flex flex-col items-center justify-center gap-4 float-anim">
             <span className="text-2xl font-medium text-[#EAC97C]">In association with</span>
-            <div className="flex flex-wrap items-center justify-center gap-8">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
               {/* IIT Delhi logo */}
               <div className="flex flex-col items-center gap-2">
                 <Image
@@ -330,7 +330,7 @@ function HeroSection({ scrollY }: { scrollY: MotionValue<number> }) {
                   alt="IIT Delhi"
                   width={144}
                   height={144}
-                  className="h-36 w-auto object-contain"
+                  className="h-28 sm:h-36 w-auto object-contain"
                   priority
                 />
                 <span className="text-xs font-medium tracking-wide text-[#B7AA91]/70">IIT Delhi</span>
@@ -342,7 +342,7 @@ function HeroSection({ scrollY }: { scrollY: MotionValue<number> }) {
                   alt="NVIDIA Inception"
                   width={144}
                   height={144}
-                  className="h-36 w-auto object-contain"
+                  className="h-28 sm:h-36 w-auto object-contain"
                   priority
                 />
                 <span className="text-xs font-medium tracking-wide text-[#B7AA91]/70">NVIDIA Inception</span>
@@ -515,22 +515,22 @@ function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </FadeUp>
 
         {/* Engine feature boxes — decreasing size left to right */}
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
           {[
-            { text: "Generative AI with Large Reasoning Models", size: 400, font: "text-sm sm:text-lg" },
-            { text: "Causal Reasoning to Eliminate Hallucinations in Design", size: 250, font: "text-xs sm:text-sm" },
-            { text: "Verifiable Simulation Engine", size: 160, font: "text-xs sm:text-sm" },
-            { text: "Physically Viable Designs", size: 130, font: "text-[10px] sm:text-xs" },
+            { text: "Generative AI with Large Reasoning Models", size: 400, mobileSize: 300, font: "text-lg sm:text-xl md:text-lg" },
+            { text: "Causal Reasoning to Eliminate Hallucinations in Design", size: 250, mobileSize: 220, font: "text-sm sm:text-base md:text-sm" },
+            { text: "Verifiable Simulation Engine", size: 160, mobileSize: 150, font: "text-xs sm:text-sm" },
+            { text: "Physically Viable Designs", size: 130, mobileSize: 120, font: "text-[10px] sm:text-xs" },
           ].map((item, i) => (
-            <FadeUp key={i} delay={0.15 + i * 0.08}>
+            <FadeUp key={i} delay={0.15 + i * 0.08} className="w-full sm:w-auto flex justify-center">
               <div
                 className="relative shrink-0 aspect-square"
-                style={{ width: item.size, height: item.size }}
+                style={{ width: isMobile ? item.mobileSize : item.size, height: isMobile ? item.mobileSize : item.size }}
               >
                 <img
                   src="/images/box.png"
                   alt=""
-                  className="h-full w-full object-contain"
+                  className="h-full w-full object-contain drop-shadow-xl"
                 />
                 <p className={`absolute inset-[20%] flex items-center justify-center text-center font-[family-name:var(--font-space-grotesk)] font-bold leading-snug text-[#EAC97C] ${item.font}`}>
                   {item.text}
@@ -1322,7 +1322,7 @@ function ContactSection() {
       <div className="flex items-center justify-between w-full px-1 sm:px-2">
 
         {/* ── Left column: honeycomb + bee ── */}
-        <div className="relative flex-shrink-0 flex items-center justify-end">
+        <div className="relative flex-shrink-0 hidden md:flex items-center justify-end">
           <Image
             src="/images/honeycomb.png"
             alt=""
@@ -1385,7 +1385,7 @@ function ContactSection() {
         </div>
 
         {/* ── Right column: honeycomb (mirrored) ── */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 hidden md:block">
           <Image
             src="/images/honeycomb.png"
             alt=""
