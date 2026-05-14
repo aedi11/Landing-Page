@@ -1070,16 +1070,6 @@ const teamMembers = [
     accent: "#EAC97C",
   },
   {
-    icon: BarChart3,
-    image: "/images/Divyansh_kumar.png",
-    name: "Divyansh Kumar",
-    subtitle: "Dept. of Electrical Engineering, IIT Delhi",
-    title: "Data Scientist Intern",
-    description:
-      "Pursuing B.Tech in Electrical Engineering from Indian Institute of Technology Delhi.",
-    accent: "#bb8a1fff",
-  },
-  {
     icon: Code,
     image: "/images/duke.jpg",
     name: "Duke Jain",
