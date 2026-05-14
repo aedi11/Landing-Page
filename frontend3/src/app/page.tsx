@@ -9,7 +9,20 @@ import {
   useReducedMotion,
   MotionValue,
 } from "framer-motion";
-import { useRef, useState } from "react";
+import Image from "next/image";
+import { useRef, useState, useEffect } from "react";
+
+/* Detect mobile once on mount — disables parallax on small screens */
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check, { passive: true });
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return isMobile;
+}
 import {
   Rocket,
   ArrowRight,
@@ -229,25 +242,18 @@ function ScanLine({
    SECTION 1 — Hero
    ══════════════════════════════════════════════ */
 function HeroSection({ scrollY }: { scrollY: MotionValue<number> }) {
+  const isMobile = useIsMobile();
   return (
     <section className="relative min-h-screen flex items-center justify-center hero-mesh overflow-hidden">
-      {/* Parallax floating elements */}
-      <div className="pointer-events-none absolute inset-0">
-        {/* Warm gold orbs */}
-        <FloatingOrb scrollY={scrollY} speed={-200} color="#826015" size={500} blur={120} left="15%" top="10%" opacity={0.06} />
-        <FloatingOrb scrollY={scrollY} speed={-100} color="#EAC97C" size={300} blur={100} left="70%" top="60%" opacity={0.03} />
-        {/* Cool contrast orbs — teal & emerald */}
-        <FloatingOrb scrollY={scrollY} speed={-300} color="#0E7490" size={400} blur={130} left="80%" top="5%" opacity={0.05} />
-        <FloatingOrb scrollY={scrollY} speed={-150} color="#059669" size={250} blur={100} left="5%" top="70%" opacity={0.04} />
-        {/* Geometric shapes */}
-        <FloatingRing scrollY={scrollY} speed={-180} color="#0E7490" size={200} left="85%" top="25%" borderWidth={1} />
-        <FloatingRing scrollY={scrollY} speed={-80} color="#EAC97C" size={120} left="8%" top="30%" borderWidth={1} />
-        <FloatingDiamond scrollY={scrollY} speed={-250} color="#059669" size={60} left="75%" top="70%" />
-        <FloatingDiamond scrollY={scrollY} speed={-120} color="#826015" size={40} left="20%" top="55%" />
-        {/* Scan lines */}
-        <ScanLine scrollY={scrollY} speed={40} color="#0E7490" top="30%" />
-        <ScanLine scrollY={scrollY} speed={25} color="#826015" top="70%" width="30%" />
-      </div>
+      {/* Parallax floating elements — hidden on mobile for performance */}
+      {!isMobile && (
+        <div className="pointer-events-none absolute inset-0">
+          <FloatingOrb scrollY={scrollY} speed={-200} color="#826015" size={500} blur={80} left="15%" top="10%" opacity={0.06} />
+          <FloatingOrb scrollY={scrollY} speed={-300} color="#0E7490" size={400} blur={80} left="80%" top="5%" opacity={0.05} />
+          <FloatingRing scrollY={scrollY} speed={-180} color="#0E7490" size={200} left="85%" top="25%" borderWidth={1} />
+          <ScanLine scrollY={scrollY} speed={40} color="#0E7490" top="30%" />
+        </div>
+      )}
 
       {/* Subtle grid overlay */}
       <div
@@ -312,35 +318,37 @@ function HeroSection({ scrollY }: { scrollY: MotionValue<number> }) {
           </div>
         </FadeUp>
 
-        {/* Partner logos badge */}
+        {/* Partner logos badge — CSS float animation (no JS loop) */}
         <FadeUp delay={0.5}>
-          <motion.div
-            className="mt-20 flex flex-col items-center justify-center gap-4"
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          >
+          <div className="mt-20 flex flex-col items-center justify-center gap-4 float-anim">
             <span className="text-2xl font-medium text-[#EAC97C]">In association with</span>
             <div className="flex flex-wrap items-center justify-center gap-8">
               {/* IIT Delhi logo */}
               <div className="flex flex-col items-center gap-2">
-                <img
+                <Image
                   src="/images/iitd_logo.png"
                   alt="IIT Delhi"
+                  width={144}
+                  height={144}
                   className="h-36 w-auto object-contain"
+                  priority
                 />
                 <span className="text-xs font-medium tracking-wide text-[#B7AA91]/70">IIT Delhi</span>
               </div>
               {/* NVIDIA logo */}
               <div className="flex flex-col items-center gap-2">
-                <img
+                <Image
                   src="/images/nvidia.png"
                   alt="NVIDIA Inception"
+                  width={144}
+                  height={144}
                   className="h-36 w-auto object-contain"
+                  priority
                 />
                 <span className="text-xs font-medium tracking-wide text-[#B7AA91]/70">NVIDIA Inception</span>
               </div>
             </div>
-          </motion.div>
+          </div>
         </FadeUp>
       </div>
     </section>
@@ -351,10 +359,11 @@ function HeroSection({ scrollY }: { scrollY: MotionValue<number> }) {
    SECTION 2 — The Vision (Video Background)
    ══════════════════════════════════════════════ */
 function VisionSection({ scrollY }: { scrollY: MotionValue<number> }) {
+  const isMobile = useIsMobile();
   return (
     <section
       id="vision"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden section-lazy"
     >
       {/* VIDEO PLACEHOLDER — Replace src with your .mp4 URL */}
       <video
@@ -369,16 +378,15 @@ function VisionSection({ scrollY }: { scrollY: MotionValue<number> }) {
       {/* Subtle top/bottom fade for smooth transitions */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#1E1B1B]/60 via-transparent to-[#1E1B1B]/60" />
 
-      {/* Parallax elements */}
-      <div className="pointer-events-none absolute inset-0">
-        <FloatingOrb scrollY={scrollY} speed={-400} color="#0E7490" size={500} blur={140} left="60%" top="10%" opacity={0.07} />
-        <FloatingOrb scrollY={scrollY} speed={-250} color="#826015" size={400} blur={120} left="10%" top="30%" opacity={0.05} />
-        <FloatingOrb scrollY={scrollY} speed={-350} color="#059669" size={300} blur={110} left="80%" top="60%" opacity={0.04} />
-        <FloatingRing scrollY={scrollY} speed={-200} color="#EAC97C" size={160} left="5%" top="20%" />
-        <FloatingRing scrollY={scrollY} speed={-300} color="#0E7490" size={240} left="90%" top="40%" borderWidth={2} />
-        <FloatingDiamond scrollY={scrollY} speed={-180} color="#EAC97C" size={50} left="15%" top="75%" />
-        <ScanLine scrollY={scrollY} speed={60} color="#0E7490" top="45%" />
-      </div>
+      {/* Parallax elements — desktop only */}
+      {!isMobile && (
+        <div className="pointer-events-none absolute inset-0">
+          <FloatingOrb scrollY={scrollY} speed={-400} color="#0E7490" size={500} blur={80} left="60%" top="10%" opacity={0.07} />
+          <FloatingOrb scrollY={scrollY} speed={-250} color="#826015" size={400} blur={80} left="10%" top="30%" opacity={0.05} />
+          <FloatingRing scrollY={scrollY} speed={-200} color="#EAC97C" size={160} left="5%" top="20%" />
+          <ScanLine scrollY={scrollY} speed={60} color="#0E7490" top="45%" />
+        </div>
+      )}
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 py-32 text-center">
         <FadeUp>
@@ -473,21 +481,20 @@ const workflowSteps = [
 ];
 
 function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
+  const isMobile = useIsMobile();
   return (
-    <section id="engine" className="relative overflow-hidden bg-[#1E1B1B] py-32">
+    <section id="engine" className="relative overflow-hidden bg-[#1E1B1B] py-32 section-lazy">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E7490]/30 to-transparent" />
 
-      {/* Parallax bg */}
-      <div className="pointer-events-none absolute inset-0">
-        <FloatingOrb scrollY={scrollY} speed={-500} color="#059669" size={450} blur={130} left="75%" top="10%" opacity={0.05} />
-        <FloatingOrb scrollY={scrollY} speed={-350} color="#826015" size={350} blur={110} left="5%" top="50%" opacity={0.05} />
-        <FloatingOrb scrollY={scrollY} speed={-600} color="#0E7490" size={300} blur={100} left="50%" top="70%" opacity={0.04} />
-        <FloatingRing scrollY={scrollY} speed={-400} color="#059669" size={180} left="90%" top="60%" />
-        <FloatingRing scrollY={scrollY} speed={-280} color="#826015" size={140} left="3%" top="15%" />
-        <FloatingDiamond scrollY={scrollY} speed={-450} color="#0E7490" size={70} left="40%" top="5%" />
-        <ScanLine scrollY={scrollY} speed={50} color="#059669" top="25%" width="50%" />
-        <ScanLine scrollY={scrollY} speed={35} color="#826015" top="80%" />
-      </div>
+      {/* Parallax bg — desktop only */}
+      {!isMobile && (
+        <div className="pointer-events-none absolute inset-0">
+          <FloatingOrb scrollY={scrollY} speed={-500} color="#059669" size={450} blur={80} left="75%" top="10%" opacity={0.05} />
+          <FloatingOrb scrollY={scrollY} speed={-350} color="#826015" size={350} blur={80} left="5%" top="50%" opacity={0.05} />
+          <FloatingRing scrollY={scrollY} speed={-400} color="#059669" size={180} left="90%" top="60%" />
+          <ScanLine scrollY={scrollY} speed={50} color="#059669" top="25%" width="50%" />
+        </div>
+      )}
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <FadeUp>
@@ -775,21 +782,20 @@ const scopeItems = [
 ];
 
 function ScopeSection({ scrollY }: { scrollY: MotionValue<number> }) {
+  const isMobile = useIsMobile();
   return (
-    <section id="scope" className="relative overflow-hidden py-32">
+    <section id="scope" className="relative overflow-hidden py-32 section-lazy">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E7490]/30 to-transparent" />
 
-      {/* Parallax bg */}
-      <div className="pointer-events-none absolute inset-0">
-        <FloatingOrb scrollY={scrollY} speed={-650} color="#0E7490" size={500} blur={140} left="0%" top="20%" opacity={0.06} />
-        <FloatingOrb scrollY={scrollY} speed={-500} color="#826015" size={350} blur={120} left="70%" top="50%" opacity={0.04} />
-        <FloatingOrb scrollY={scrollY} speed={-750} color="#059669" size={200} blur={90} left="90%" top="10%" opacity={0.05} />
-        <FloatingRing scrollY={scrollY} speed={-550} color="#EAC97C" size={200} left="80%" top="20%" />
-        <FloatingDiamond scrollY={scrollY} speed={-600} color="#0E7490" size={80} left="10%" top="60%" />
-        <FloatingDiamond scrollY={scrollY} speed={-700} color="#059669" size={45} left="60%" top="80%" />
-        <ScanLine scrollY={scrollY} speed={70} color="#0E7490" top="15%" />
-        <ScanLine scrollY={scrollY} speed={45} color="#059669" top="65%" width="35%" />
-      </div>
+      {/* Parallax bg — desktop only */}
+      {!isMobile && (
+        <div className="pointer-events-none absolute inset-0">
+          <FloatingOrb scrollY={scrollY} speed={-650} color="#0E7490" size={500} blur={80} left="0%" top="20%" opacity={0.06} />
+          <FloatingOrb scrollY={scrollY} speed={-500} color="#826015" size={350} blur={80} left="70%" top="50%" opacity={0.04} />
+          <FloatingRing scrollY={scrollY} speed={-550} color="#EAC97C" size={200} left="80%" top="20%" />
+          <ScanLine scrollY={scrollY} speed={70} color="#0E7490" top="15%" />
+        </div>
+      )}
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <FadeUp>
@@ -845,10 +851,13 @@ function ScopeSection({ scrollY }: { scrollY: MotionValue<number> }) {
                 </div>
 
                 <div className="shrink-0 rounded-xl w-full flex justify-center mt-4 md:mt-0 md:w-auto md:block">
-                  <img
+                  <Image
                     src={item.image}
                     alt={item.title}
+                    width={208}
+                    height={144}
                     className="h-48 w-full rounded-xl object-contain md:h-36 md:w-52"
+                    loading="lazy"
                   />
                 </div>
               </div>
@@ -899,22 +908,20 @@ const impactStats = [
 ];
 
 function ImpactSection({ scrollY }: { scrollY: MotionValue<number> }) {
+  const isMobile = useIsMobile();
   return (
-    <section id="impact" className="relative overflow-hidden bg-[#1E1B1B] py-32">
+    <section id="impact" className="relative overflow-hidden bg-[#1E1B1B] py-32 section-lazy">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E7490]/30 to-transparent" />
 
-      {/* Parallax bg */}
-      <div className="pointer-events-none absolute inset-0">
-        <FloatingOrb scrollY={scrollY} speed={-800} color="#0E7490" size={600} blur={160} left="40%" top="0%" opacity={0.06} />
-        <FloatingOrb scrollY={scrollY} speed={-650} color="#059669" size={400} blur={120} left="80%" top="40%" opacity={0.04} />
-        <FloatingOrb scrollY={scrollY} speed={-900} color="#826015" size={350} blur={110} left="5%" top="60%" opacity={0.05} />
-        <FloatingRing scrollY={scrollY} speed={-700} color="#0E7490" size={280} left="85%" top="15%" borderWidth={2} />
-        <FloatingRing scrollY={scrollY} speed={-550} color="#059669" size={100} left="10%" top="25%" />
-        <FloatingDiamond scrollY={scrollY} speed={-850} color="#EAC97C" size={55} left="30%" top="80%" />
-        <FloatingDiamond scrollY={scrollY} speed={-750} color="#0E7490" size={35} left="65%" top="10%" />
-        <ScanLine scrollY={scrollY} speed={80} color="#0E7490" top="35%" />
-        <ScanLine scrollY={scrollY} speed={55} color="#059669" top="75%" width="45%" />
-      </div>
+      {/* Parallax bg — desktop only */}
+      {!isMobile && (
+        <div className="pointer-events-none absolute inset-0">
+          <FloatingOrb scrollY={scrollY} speed={-800} color="#0E7490" size={600} blur={80} left="40%" top="0%" opacity={0.06} />
+          <FloatingOrb scrollY={scrollY} speed={-650} color="#059669" size={400} blur={80} left="80%" top="40%" opacity={0.04} />
+          <FloatingRing scrollY={scrollY} speed={-700} color="#0E7490" size={280} left="85%" top="15%" borderWidth={2} />
+          <ScanLine scrollY={scrollY} speed={80} color="#0E7490" top="35%" />
+        </div>
+      )}
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <FadeUp>
@@ -1109,10 +1116,13 @@ function TeamCard({ member }: { member: (typeof teamMembers)[number] }) {
           }}
         >
           {member.image ? (
-            <img
+            <Image
               src={member.image}
               alt={member.name}
+              width={96}
+              height={96}
               className="h-full w-full object-cover object-top"
+              loading="lazy"
             />
           ) : (
             <member.icon
@@ -1162,7 +1172,7 @@ function TeamCard({ member }: { member: (typeof teamMembers)[number] }) {
               exit={{ opacity: 0, scale: 0.92, y: 20 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
               onClick={(e) => e.stopPropagation()}
-              className="glass relative z-10 w-full max-w-[60vw] max-h-[85vh] overflow-y-auto rounded-2xl border border-[#8F7E5E]/20 p-10"
+              className="glass relative z-10 w-full max-w-[92vw] sm:max-w-[60vw] max-h-[85vh] overflow-y-auto rounded-2xl border border-[#8F7E5E]/20 p-6 sm:p-10"
             >
               {/* Close button */}
               <button
@@ -1182,10 +1192,13 @@ function TeamCard({ member }: { member: (typeof teamMembers)[number] }) {
                   }}
                 >
                   {member.image ? (
-                    <img
+                    <Image
                       src={member.image}
                       alt={member.name}
+                      width={80}
+                      height={80}
                       className="h-full w-full object-cover object-top"
+                      loading="lazy"
                     />
                   ) : (
                     <member.icon
@@ -1235,21 +1248,20 @@ function TeamCard({ member }: { member: (typeof teamMembers)[number] }) {
 }
 
 function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
+  const isMobile = useIsMobile();
   return (
-    <section id="leadership" className="relative overflow-hidden pt-32 pb-12">
+    <section id="leadership" className="relative overflow-hidden pt-32 pb-12 section-lazy">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E7490]/30 to-transparent" />
 
-      {/* Parallax bg */}
-      <div className="pointer-events-none absolute inset-0">
-        <FloatingOrb scrollY={scrollY} speed={-950} color="#0E7490" size={400} blur={130} left="70%" top="15%" opacity={0.05} />
-        <FloatingOrb scrollY={scrollY} speed={-1050} color="#826015" size={350} blur={110} left="10%" top="50%" opacity={0.04} />
-        <FloatingOrb scrollY={scrollY} speed={-850} color="#059669" size={300} blur={100} left="50%" top="70%" opacity={0.04} />
-        <FloatingRing scrollY={scrollY} speed={-900} color="#EAC97C" size={160} left="85%" top="55%" />
-        <FloatingRing scrollY={scrollY} speed={-1000} color="#0E7490" size={220} left="5%" top="10%" borderWidth={2} />
-        <FloatingDiamond scrollY={scrollY} speed={-1100} color="#059669" size={50} left="25%" top="80%" />
-        <ScanLine scrollY={scrollY} speed={90} color="#EAC97C" top="20%" width="30%" />
-        <ScanLine scrollY={scrollY} speed={65} color="#0E7490" top="85%" />
-      </div>
+      {/* Parallax bg — desktop only */}
+      {!isMobile && (
+        <div className="pointer-events-none absolute inset-0">
+          <FloatingOrb scrollY={scrollY} speed={-950} color="#0E7490" size={400} blur={80} left="70%" top="15%" opacity={0.05} />
+          <FloatingOrb scrollY={scrollY} speed={-1050} color="#826015" size={350} blur={80} left="10%" top="50%" opacity={0.04} />
+          <FloatingRing scrollY={scrollY} speed={-900} color="#EAC97C" size={160} left="85%" top="55%" />
+          <ScanLine scrollY={scrollY} speed={90} color="#EAC97C" top="20%" width="30%" />
+        </div>
+      )}
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <FadeUp>
@@ -1280,10 +1292,13 @@ function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
             member.image === "/images/man.png" ? (
               <FadeUp key={member.name} delay={0.1 + i * 0.1}>
                 <div className="flex h-full items-center justify-center">
-                  <img
+                  <Image
                     src="/images/man.png"
                     alt={member.name}
+                    width={256}
+                    height={256}
                     className="h-64 w-auto object-contain opacity-80"
+                    loading="lazy"
                   />
                 </div>
               </FadeUp>
@@ -1308,10 +1323,13 @@ function ContactSection() {
 
         {/* ── Left column: honeycomb + bee ── */}
         <div className="relative flex-shrink-0 flex items-center justify-end">
-          <img
+          <Image
             src="/images/honeycomb.png"
             alt=""
+            width={288}
+            height={288}
             className="pointer-events-none h-44 w-auto opacity-60 sm:h-60 md:h-72 rotate-180"
+            loading="lazy"
           />
         </div>
 
@@ -1368,10 +1386,13 @@ function ContactSection() {
 
         {/* ── Right column: honeycomb (mirrored) ── */}
         <div className="flex-shrink-0">
-          <img
+          <Image
             src="/images/honeycomb.png"
             alt=""
+            width={288}
+            height={288}
             className="pointer-events-none h-44 w-auto opacity-60 sm:h-60 md:h-72 -scale-x-100 rotate-180"
+            loading="lazy"
           />
         </div>
 

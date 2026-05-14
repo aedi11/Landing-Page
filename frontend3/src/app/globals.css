@@ -118,14 +118,12 @@ html {
   box-shadow: 0 0 20px rgba(14, 116, 144, 0.2), 0 0 40px rgba(14, 116, 144, 0.08);
 }
 
-/* Background gradient mesh for hero */
+/* Background gradient mesh for hero — simplified to 3 gradients for perf */
 .hero-mesh {
   background:
     radial-gradient(ellipse 80% 50% at 50% -20%, rgba(130, 96, 21, 0.15), transparent),
     radial-gradient(ellipse 40% 40% at 85% 20%, rgba(14, 116, 144, 0.08), transparent),
-    radial-gradient(ellipse 60% 40% at 80% 50%, rgba(143, 126, 94, 0.08), transparent),
     radial-gradient(ellipse 35% 35% at 10% 60%, rgba(5, 150, 105, 0.05), transparent),
-    radial-gradient(ellipse 50% 50% at 20% 80%, rgba(130, 96, 21, 0.06), transparent),
     #1E1B1B;
 }
 
@@ -156,6 +154,23 @@ html {
   will-change: transform;
 }
 
+/* ── Pure CSS floating animation — replaces JS repeat:Infinity ── */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+
+.float-anim {
+  animation: float-y 4s ease-in-out infinite;
+}
+
+/* ── content-visibility: skip rendering off-screen sections ── */
+.section-lazy {
+  content-visibility: auto;
+  /* Give browser a size hint to avoid layout shift */
+  contain-intrinsic-size: 0 800px;
+}
+
 /* Respect reduced-motion preference — disable all non-essential animations */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -165,6 +180,10 @@ html {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .float-anim {
+    animation: none !important;
   }
 }
 

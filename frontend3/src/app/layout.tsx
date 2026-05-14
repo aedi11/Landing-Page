@@ -7,12 +7,17 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
+  // Only load weights we actually use
+  weight: ["400", "500", "600", "700"],
+  preload: true,
 });
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
   display: "swap",
+  weight: ["500", "600", "700"],
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -52,6 +57,28 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Preconnect to Next.js image optimization origin */}
+        <link rel="preconnect" href="/_next" />
+        {/* Preload the hero background image — it's above the fold */}
+        <link
+          rel="preload"
+          as="image"
+          href="/images/Background.png"
+          fetchPriority="high"
+        />
+        {/* Preload the two logos visible in the hero without scrolling */}
+        <link
+          rel="preload"
+          as="image"
+          href="/images/iitd_logo.png"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/images/nvidia.png"
+        />
+      </head>
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}
       >
