@@ -669,7 +669,7 @@ function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
                       {i + 1}
                     </div>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4">
                       <div
                         className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
                         style={{
@@ -693,14 +693,14 @@ function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
                     </div>
 
                     {step.bullets && (
-                      <div className="mt-3 grid grid-cols-1 gap-1.5 pl-16 sm:grid-cols-2">
+                      <div className="mt-4 flex flex-col items-center sm:items-start gap-1.5 sm:pl-16">
                         {step.bullets.map((bullet) => (
                           <div key={bullet} className="flex items-start gap-2">
                             <span
                               className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full"
                               style={{ backgroundColor: step.accent }}
                             />
-                            <span className="text-sm leading-relaxed text-[#C8BAA6]">{bullet}</span>
+                            <span className="text-sm leading-relaxed text-[#C8BAA6] text-center sm:text-left">{bullet}</span>
                           </div>
                         ))}
                       </div>
@@ -824,8 +824,8 @@ function ScopeSection({ scrollY }: { scrollY: MotionValue<number> }) {
           {scopeItems.map((item, i) => (
             <FadeUp key={item.title} delay={0.1 + i * 0.08}>
               <div
-                className={`glass flex flex-col items-start gap-6 rounded-2xl p-8 transition-all duration-300 hover:shadow-[0_0_25px_rgba(14,116,144,0.1)] md:flex-row md:items-center ${
-                  i % 2 !== 0 ? "md:flex-row-reverse md:text-right" : ""
+                className={`glass flex flex-col items-center text-center gap-6 rounded-2xl p-8 transition-all duration-300 hover:shadow-[0_0_25px_rgba(14,116,144,0.1)] md:flex-row ${
+                  i % 2 !== 0 ? "md:flex-row-reverse md:text-right" : "md:text-left"
                 }`}
               >
                 <div
