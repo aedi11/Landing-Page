@@ -1081,12 +1081,22 @@ const teamMembers = [
   },
   {
     icon: Code,
-    image: "",
+    image: "/images/duke.jpg",
     name: "Duke Jain",
     subtitle: "Dept. of Biochemical Engineering and Biotechnology, IIT Delhi",
-    title: "Full - Stack Intern",
+    title: "Full-Stack Intern",
     description:
-      "Department of biochemical engineering and biotechnology at iit delhi",
+      "Pursuing B.Tech in Biochemical Engineering and Biotechnology at the Indian Institute of Technology Delhi.",
+    accent: "#0E7490",
+  },
+  {
+    icon: Code,
+    image: "/images/bhanu.jpg",
+    name: "Bhanu",
+    subtitle: "IIT Delhi",
+    title: "Intern",
+    description:
+      "Intern at AEDI, Indian Institute of Technology Delhi.",
     accent: "#0E7490",
   },
 ];
