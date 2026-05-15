@@ -28,8 +28,6 @@ body {
   color: #B7AA91;
   font-family: var(--font-sans), system-ui, sans-serif;
   overflow-x: hidden;
-  width: 100%;
-  max-width: 100vw;
   /* iOS Safari momentum scroll */
   -webkit-overflow-scrolling: touch;
 }
@@ -37,14 +35,6 @@ body {
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
-  width: 100%;
-  max-width: 100vw;
-  box-sizing: border-box;
-}
-
-*, *:before, *:after {
-  box-sizing: border-box;
 }
 
 /* Custom scrollbar */

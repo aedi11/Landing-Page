@@ -1319,7 +1319,7 @@ function ContactSection() {
   return (
     <section id="contact" className="relative w-full py-12 overflow-hidden">
       {/* ── Left honeycomb (absolute) ── */}
-      <div className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 hidden md:block opacity-60">
+      <div className="pointer-events-none absolute -left-16 sm:left-0 top-1/2 -translate-y-1/2 opacity-60">
         <Image
           src="/images/honeycomb.png"
           alt=""
@@ -1382,7 +1382,7 @@ function ContactSection() {
       </div>
 
       {/* ── Right honeycomb (absolute) ── */}
-      <div className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 hidden md:block opacity-60">
+      <div className="pointer-events-none absolute -right-16 sm:right-0 top-1/2 -translate-y-1/2 opacity-60">
         <Image
           src="/images/honeycomb.png"
           alt=""
