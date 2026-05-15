@@ -244,7 +244,7 @@ function ScanLine({
 function HeroSection({ scrollY }: { scrollY: MotionValue<number> }) {
   const isMobile = useIsMobile();
   return (
-    <section className="relative min-h-screen flex items-center justify-center hero-mesh overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center hero-mesh overflow-hidden w-full">
       {/* Parallax floating elements — hidden on mobile for performance */}
       {!isMobile && (
         <div className="pointer-events-none absolute inset-0">
@@ -265,7 +265,7 @@ function HeroSection({ scrollY }: { scrollY: MotionValue<number> }) {
         }}
       />
 
-      <div className="relative z-10 mx-auto max-w-5xl px-6 py-32 text-center">
+      <div className="relative z-10 mx-auto w-full max-w-5xl px-6 py-32 text-center">
         {/* Pill badge */}
         <FadeUp>
           <div className="mb-8 inline-flex items-center gap-2 rounded-full bg-[#514733]/60 px-5 py-2.5 text-sm font-medium text-[#EAC97C] ring-1 ring-[#0E7490]/30 backdrop-blur-sm">
@@ -363,7 +363,7 @@ function VisionSection({ scrollY }: { scrollY: MotionValue<number> }) {
   return (
     <section
       id="vision"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden section-lazy"
+      className="relative flex min-h-screen w-full items-center justify-center overflow-hidden section-lazy"
     >
       {/* VIDEO PLACEHOLDER — Replace src with your .mp4 URL */}
       <video
@@ -388,7 +388,7 @@ function VisionSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </div>
       )}
 
-      <div className="relative z-10 mx-auto max-w-4xl px-6 py-32 text-center">
+      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 py-32 text-center">
         <FadeUp>
           <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-[#514733]/40 px-4 py-2 text-xs font-medium uppercase tracking-widest text-[#0E7490] ring-1 ring-[#0E7490]/20">
             The Vision
@@ -483,7 +483,7 @@ const workflowSteps = [
 function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
   const isMobile = useIsMobile();
   return (
-    <section id="engine" className="relative overflow-hidden bg-[#1E1B1B] py-32 section-lazy">
+    <section id="engine" className="relative w-full overflow-hidden bg-[#1E1B1B] py-32 section-lazy">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E7490]/30 to-transparent" />
 
       {/* Parallax bg — desktop only */}
@@ -496,7 +496,7 @@ function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </div>
       )}
 
-      <div className="relative z-10 mx-auto max-w-6xl px-6">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
         <FadeUp>
           <div className="mb-6 text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#514733]/40 px-4 py-2 text-xs font-medium uppercase tracking-widest text-[#059669] ring-1 ring-[#059669]/20">
@@ -784,7 +784,7 @@ const scopeItems = [
 function ScopeSection({ scrollY }: { scrollY: MotionValue<number> }) {
   const isMobile = useIsMobile();
   return (
-    <section id="scope" className="relative overflow-hidden py-32 section-lazy">
+    <section id="scope" className="relative w-full overflow-hidden py-32 section-lazy">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E7490]/30 to-transparent" />
 
       {/* Parallax bg — desktop only */}
@@ -797,7 +797,7 @@ function ScopeSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </div>
       )}
 
-      <div className="relative z-10 mx-auto max-w-6xl px-6">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
         <FadeUp>
           <div className="mb-6 text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#514733]/40 px-4 py-2 text-xs font-medium uppercase tracking-widest text-[#0E7490] ring-1 ring-[#0E7490]/20">
@@ -910,7 +910,7 @@ const impactStats = [
 function ImpactSection({ scrollY }: { scrollY: MotionValue<number> }) {
   const isMobile = useIsMobile();
   return (
-    <section id="impact" className="relative overflow-hidden bg-[#1E1B1B] py-32 section-lazy">
+    <section id="impact" className="relative w-full overflow-hidden bg-[#1E1B1B] py-32 section-lazy">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E7490]/30 to-transparent" />
 
       {/* Parallax bg — desktop only */}
@@ -923,7 +923,7 @@ function ImpactSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </div>
       )}
 
-      <div className="relative z-10 mx-auto max-w-6xl px-6">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
         <FadeUp>
           <div className="mb-6 text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#514733]/40 px-4 py-2 text-xs font-medium uppercase tracking-widest text-[#059669] ring-1 ring-[#059669]/20">
@@ -1106,7 +1106,7 @@ function TeamCard({ member }: { member: (typeof teamMembers)[number] }) {
       {/* Card */}
       <div
         onClick={() => setOpen(true)}
-        className="glass group flex h-full cursor-pointer flex-col items-center rounded-2xl p-8 text-center transition-all duration-300 hover:shadow-[0_0_25px_rgba(14,116,144,0.1)]"
+        className="glass group flex h-full w-full cursor-pointer flex-col items-center rounded-2xl p-8 text-center transition-all duration-300 hover:shadow-[0_0_25px_rgba(14,116,144,0.1)]"
       >
         <div
           className="mb-6 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full transition-all duration-300"
@@ -1250,7 +1250,7 @@ function TeamCard({ member }: { member: (typeof teamMembers)[number] }) {
 function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
   const isMobile = useIsMobile();
   return (
-    <section id="leadership" className="relative overflow-hidden pt-32 pb-12 section-lazy">
+    <section id="leadership" className="relative w-full overflow-hidden pt-32 pb-12 section-lazy">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E7490]/30 to-transparent" />
 
       {/* Parallax bg — desktop only */}
@@ -1263,7 +1263,7 @@ function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </div>
       )}
 
-      <div className="relative z-10 mx-auto max-w-6xl px-6">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
         <FadeUp>
           <div className="mb-6 text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#514733]/40 px-4 py-2 text-xs font-medium uppercase tracking-widest text-[#EAC97C] ring-1 ring-[#8F7E5E]/20">
@@ -1303,7 +1303,7 @@ function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
                 </div>
               </FadeUp>
             ) : (
-              <FadeUp key={member.name} delay={0.1 + i * 0.1}>
+              <FadeUp key={member.name} delay={0.1 + i * 0.1} className="h-full w-full">
                 <TeamCard member={member} />
               </FadeUp>
             )
@@ -1317,7 +1317,7 @@ function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
 
 function ContactSection() {
   return (
-    <section id="contact" className="relative py-12 overflow-hidden">
+    <section id="contact" className="relative w-full py-12 overflow-hidden">
       {/* ── Left honeycomb (absolute) ── */}
       <div className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 hidden md:block opacity-60">
         <Image
@@ -1403,7 +1403,7 @@ export default function Home() {
   const { scrollY } = useScroll();
 
   return (
-    <main className="relative">
+    <main className="relative w-full overflow-x-hidden">
       {/* Global background image — uses .global-bg class for iOS GPU compositing fix */}
       <div
         className="global-bg"
