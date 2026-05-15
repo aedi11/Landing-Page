@@ -255,15 +255,7 @@ function HeroSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </div>
       )}
 
-      {/* Subtle grid overlay */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(14,116,144,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(234,201,124,0.2) 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
-        }}
-      />
+      {/* Subtle grid overlay removed */}
 
       <div className="relative z-10 mx-auto flex w-full flex-col items-center justify-center max-w-5xl px-6 py-32 text-center">
         {/* Pill badge */}
