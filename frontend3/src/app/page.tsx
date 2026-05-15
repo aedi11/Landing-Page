@@ -247,7 +247,7 @@ function HeroSection({ scrollY }: { scrollY: MotionValue<number> }) {
     <section className="relative min-h-screen flex items-center justify-center hero-mesh overflow-hidden w-full">
       {/* Parallax floating elements — hidden on mobile for performance */}
       {!isMobile && (
-        <div className="pointer-events-none absolute inset-0">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <FloatingOrb scrollY={scrollY} speed={-200} color="#826015" size={500} blur={80} left="15%" top="10%" opacity={0.06} />
           <FloatingOrb scrollY={scrollY} speed={-300} color="#0E7490" size={400} blur={80} left="80%" top="5%" opacity={0.05} />
           <FloatingRing scrollY={scrollY} speed={-180} color="#0E7490" size={200} left="85%" top="25%" borderWidth={1} />
@@ -276,7 +276,7 @@ function HeroSection({ scrollY }: { scrollY: MotionValue<number> }) {
 
         {/* Main heading */}
         <FadeUp delay={0.1}>
-          <h1 className="font-[family-name:var(--font-space-grotesk)] text-5xl font-bold leading-[1.1] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
+          <h1 className="font-[family-name:var(--font-space-grotesk)] text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-7xl lg:text-8xl">
             <span className="text-gradient-gold">
               Automated Electronic
               <br />
@@ -380,7 +380,7 @@ function VisionSection({ scrollY }: { scrollY: MotionValue<number> }) {
 
       {/* Parallax elements — desktop only */}
       {!isMobile && (
-        <div className="pointer-events-none absolute inset-0">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <FloatingOrb scrollY={scrollY} speed={-400} color="#0E7490" size={500} blur={80} left="60%" top="10%" opacity={0.07} />
           <FloatingOrb scrollY={scrollY} speed={-250} color="#826015" size={400} blur={80} left="10%" top="30%" opacity={0.05} />
           <FloatingRing scrollY={scrollY} speed={-200} color="#EAC97C" size={160} left="5%" top="20%" />
@@ -488,7 +488,7 @@ function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
 
       {/* Parallax bg — desktop only */}
       {!isMobile && (
-        <div className="pointer-events-none absolute inset-0">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <FloatingOrb scrollY={scrollY} speed={-500} color="#059669" size={450} blur={80} left="75%" top="10%" opacity={0.05} />
           <FloatingOrb scrollY={scrollY} speed={-350} color="#826015" size={350} blur={80} left="5%" top="50%" opacity={0.05} />
           <FloatingRing scrollY={scrollY} speed={-400} color="#059669" size={180} left="90%" top="60%" />
@@ -789,7 +789,7 @@ function ScopeSection({ scrollY }: { scrollY: MotionValue<number> }) {
 
       {/* Parallax bg — desktop only */}
       {!isMobile && (
-        <div className="pointer-events-none absolute inset-0">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <FloatingOrb scrollY={scrollY} speed={-650} color="#0E7490" size={500} blur={80} left="0%" top="20%" opacity={0.06} />
           <FloatingOrb scrollY={scrollY} speed={-500} color="#826015" size={350} blur={80} left="70%" top="50%" opacity={0.04} />
           <FloatingRing scrollY={scrollY} speed={-550} color="#EAC97C" size={200} left="80%" top="20%" />
@@ -915,7 +915,7 @@ function ImpactSection({ scrollY }: { scrollY: MotionValue<number> }) {
 
       {/* Parallax bg — desktop only */}
       {!isMobile && (
-        <div className="pointer-events-none absolute inset-0">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <FloatingOrb scrollY={scrollY} speed={-800} color="#0E7490" size={600} blur={80} left="40%" top="0%" opacity={0.06} />
           <FloatingOrb scrollY={scrollY} speed={-650} color="#059669" size={400} blur={80} left="80%" top="40%" opacity={0.04} />
           <FloatingRing scrollY={scrollY} speed={-700} color="#0E7490" size={280} left="85%" top="15%" borderWidth={2} />
@@ -1255,7 +1255,7 @@ function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
 
       {/* Parallax bg — desktop only */}
       {!isMobile && (
-        <div className="pointer-events-none absolute inset-0">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <FloatingOrb scrollY={scrollY} speed={-950} color="#0E7490" size={400} blur={80} left="70%" top="15%" opacity={0.05} />
           <FloatingOrb scrollY={scrollY} speed={-1050} color="#826015" size={350} blur={80} left="10%" top="50%" opacity={0.04} />
           <FloatingRing scrollY={scrollY} speed={-900} color="#EAC97C" size={160} left="85%" top="55%" />
