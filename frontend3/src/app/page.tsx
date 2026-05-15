@@ -1314,21 +1314,8 @@ function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
 }
 
 function ContactSection() {
-  const isMobile = useIsMobile();
   return (
     <section id="contact" className="relative w-full py-12 overflow-hidden">
-      {/* ── Left honeycomb (absolute) ── */}
-      <div className="hide-on-mobile pointer-events-none absolute -left-16 sm:left-0 top-1/2 -translate-y-1/2 opacity-60">
-        <Image
-          src="/images/honeycomb.png"
-          alt=""
-          width={288}
-          height={288}
-          className="h-44 w-auto sm:h-60 md:h-72 rotate-180"
-          loading="lazy"
-        />
-      </div>
-
       {/* ── Center content ── */}
       <div className="relative z-10 mx-auto w-full max-w-2xl px-6 text-center">
         {/* Email */}
@@ -1378,18 +1365,6 @@ function ContactSection() {
             <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
           </a>
         </div>
-      </div>
-
-      {/* ── Right honeycomb (absolute) ── */}
-      <div className="hide-on-mobile pointer-events-none absolute -right-16 sm:right-0 top-1/2 -translate-y-1/2 opacity-60">
-        <Image
-          src="/images/honeycomb.png"
-          alt=""
-          width={288}
-          height={288}
-          className="h-44 w-auto sm:h-60 md:h-72 -scale-x-100 rotate-180"
-          loading="lazy"
-        />
       </div>
     </section>
   );
