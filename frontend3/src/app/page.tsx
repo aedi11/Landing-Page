@@ -1318,18 +1318,16 @@ function ContactSection() {
   return (
     <section id="contact" className="relative w-full py-12 overflow-hidden">
       {/* ── Left honeycomb (absolute) ── */}
-      {!isMobile && (
-        <div className="pointer-events-none absolute -left-16 sm:left-0 top-1/2 -translate-y-1/2 opacity-60">
-          <Image
-            src="/images/honeycomb.png"
-            alt=""
-            width={288}
-            height={288}
-            className="h-44 w-auto sm:h-60 md:h-72 rotate-180"
-            loading="lazy"
-          />
-        </div>
-      )}
+      <div className="hide-on-mobile pointer-events-none absolute -left-16 sm:left-0 top-1/2 -translate-y-1/2 opacity-60">
+        <Image
+          src="/images/honeycomb.png"
+          alt=""
+          width={288}
+          height={288}
+          className="h-44 w-auto sm:h-60 md:h-72 rotate-180"
+          loading="lazy"
+        />
+      </div>
 
       {/* ── Center content ── */}
       <div className="relative z-10 mx-auto w-full max-w-2xl px-6 text-center">
@@ -1383,18 +1381,16 @@ function ContactSection() {
       </div>
 
       {/* ── Right honeycomb (absolute) ── */}
-      {!isMobile && (
-        <div className="pointer-events-none absolute -right-16 sm:right-0 top-1/2 -translate-y-1/2 opacity-60">
-          <Image
-            src="/images/honeycomb.png"
-            alt=""
-            width={288}
-            height={288}
-            className="h-44 w-auto sm:h-60 md:h-72 -scale-x-100 rotate-180"
-            loading="lazy"
-          />
-        </div>
-      )}
+      <div className="hide-on-mobile pointer-events-none absolute -right-16 sm:right-0 top-1/2 -translate-y-1/2 opacity-60">
+        <Image
+          src="/images/honeycomb.png"
+          alt=""
+          width={288}
+          height={288}
+          className="h-44 w-auto sm:h-60 md:h-72 -scale-x-100 rotate-180"
+          loading="lazy"
+        />
+      </div>
     </section>
   );
 }

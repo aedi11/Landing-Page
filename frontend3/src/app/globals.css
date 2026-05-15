@@ -219,3 +219,8 @@ nextjs-portal,
 #vercel-toolbar {
   display: none !important;
 }
+@media (max-width: 1024px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+}
