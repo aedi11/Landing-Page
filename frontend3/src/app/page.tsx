@@ -1378,13 +1378,6 @@ export default function Home() {
 
   return (
     <main className="relative w-full overflow-x-hidden">
-      {/* Global background image — uses .global-bg class for iOS GPU compositing fix */}
-      <div
-        className="global-bg"
-        style={{
-          backgroundImage: "url('/images/Background.png')",
-        }}
-      />
       <HeroSection scrollY={scrollY} />
       <VisionSection scrollY={scrollY} />
       <EngineSection scrollY={scrollY} />

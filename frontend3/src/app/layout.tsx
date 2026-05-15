@@ -60,13 +60,6 @@ export default function RootLayout({
       <head>
         {/* Preconnect to Next.js image optimization origin */}
         <link rel="preconnect" href="/_next" />
-        {/* Preload the hero background image — it's above the fold */}
-        <link
-          rel="preload"
-          as="image"
-          href="/images/Background.png"
-          fetchPriority="high"
-        />
         {/* Preload the two logos visible in the hero without scrolling */}
         <link
           rel="preload"
