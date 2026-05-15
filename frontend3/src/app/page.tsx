@@ -265,7 +265,7 @@ function HeroSection({ scrollY }: { scrollY: MotionValue<number> }) {
         }}
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-5xl px-6 py-32 text-center">
+      <div className="relative z-10 mx-auto flex w-full flex-col items-center justify-center max-w-5xl px-6 py-32 text-center">
         {/* Pill badge */}
         <FadeUp>
           <div className="mb-8 inline-flex items-center gap-2 rounded-full bg-[#514733]/60 px-5 py-2.5 text-sm font-medium text-[#EAC97C] ring-1 ring-[#0E7490]/30 backdrop-blur-sm">
@@ -388,7 +388,7 @@ function VisionSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </div>
       )}
 
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 py-32 text-center">
+      <div className="relative z-10 mx-auto flex w-full flex-col items-center justify-center max-w-4xl px-6 py-32 text-center">
         <FadeUp>
           <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-[#514733]/40 px-4 py-2 text-xs font-medium uppercase tracking-widest text-[#0E7490] ring-1 ring-[#0E7490]/20">
             The Vision
@@ -496,7 +496,7 @@ function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </div>
       )}
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
+      <div className="relative z-10 mx-auto flex w-full flex-col items-center justify-center max-w-6xl px-6">
         <FadeUp>
           <div className="mb-6 text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#514733]/40 px-4 py-2 text-xs font-medium uppercase tracking-widest text-[#059669] ring-1 ring-[#059669]/20">
@@ -541,7 +541,7 @@ function EngineSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </div>
 
         {/* ── Workflow Diagram ── */}
-        <div className="mt-24">
+        <div className="mt-24 w-full">
           <FadeUp>
             <h3 className="mb-12 text-center font-[family-name:var(--font-space-grotesk)] text-2xl font-bold text-[#EAC97C] sm:text-3xl">
               Design Workflow
@@ -797,7 +797,7 @@ function ScopeSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </div>
       )}
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
+      <div className="relative z-10 mx-auto flex w-full flex-col items-center justify-center max-w-6xl px-6">
         <FadeUp>
           <div className="mb-6 text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#514733]/40 px-4 py-2 text-xs font-medium uppercase tracking-widest text-[#0E7490] ring-1 ring-[#0E7490]/20">
@@ -820,7 +820,7 @@ function ScopeSection({ scrollY }: { scrollY: MotionValue<number> }) {
           </p>
         </FadeUp>
 
-        <div className="mt-16 space-y-6">
+        <div className="mt-16 w-full space-y-6">
           {scopeItems.map((item, i) => (
             <FadeUp key={item.title} delay={0.1 + i * 0.08}>
               <div
@@ -923,7 +923,7 @@ function ImpactSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </div>
       )}
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
+      <div className="relative z-10 mx-auto flex w-full flex-col items-center justify-center max-w-6xl px-6">
         <FadeUp>
           <div className="mb-6 text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#514733]/40 px-4 py-2 text-xs font-medium uppercase tracking-widest text-[#059669] ring-1 ring-[#059669]/20">
@@ -947,9 +947,9 @@ function ImpactSection({ scrollY }: { scrollY: MotionValue<number> }) {
           </p>
         </FadeUp>
 
-        <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16 flex w-full flex-col items-center gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-4">
           {impactStats.map((item, i) => (
-            <FadeUp key={item.title} delay={0.1 + i * 0.1} className="h-full">
+            <FadeUp key={item.title} delay={0.1 + i * 0.1} className="h-full w-full">
               <div className="glass-strong group rounded-2xl p-8 text-center transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,116,144,0.12)] h-full flex flex-col">
                 <div>
                   <div
@@ -1106,7 +1106,7 @@ function TeamCard({ member }: { member: (typeof teamMembers)[number] }) {
       {/* Card */}
       <div
         onClick={() => setOpen(true)}
-        className="glass group flex h-full w-full cursor-pointer flex-col items-center rounded-2xl p-8 text-center transition-all duration-300 hover:shadow-[0_0_25px_rgba(14,116,144,0.1)]"
+        className="glass group flex h-full w-[90%] max-w-[400px] sm:w-full sm:max-w-none mx-auto cursor-pointer flex-col items-center rounded-2xl p-8 text-center transition-all duration-300 hover:shadow-[0_0_25px_rgba(14,116,144,0.1)]"
       >
         <div
           className="mb-6 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full transition-all duration-300"
@@ -1263,7 +1263,7 @@ function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
         </div>
       )}
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
+      <div className="relative z-10 mx-auto flex w-full flex-col items-center justify-center max-w-6xl px-6">
         <FadeUp>
           <div className="mb-6 text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#514733]/40 px-4 py-2 text-xs font-medium uppercase tracking-widest text-[#EAC97C] ring-1 ring-[#8F7E5E]/20">
@@ -1287,7 +1287,7 @@ function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
           </p>
         </FadeUp>
 
-        <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-16 flex w-full flex-col items-center gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3">
           {teamMembers.map((member, i) =>
             member.image === "/images/man.png" ? (
               <FadeUp key={member.name} delay={0.1 + i * 0.1}>
@@ -1303,7 +1303,7 @@ function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
                 </div>
               </FadeUp>
             ) : (
-              <FadeUp key={member.name} delay={0.1 + i * 0.1} className="h-full w-full">
+              <FadeUp key={member.name} delay={0.1 + i * 0.1} className="flex w-full flex-col items-center sm:block">
                 <TeamCard member={member} />
               </FadeUp>
             )
