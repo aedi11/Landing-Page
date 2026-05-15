@@ -1314,19 +1314,22 @@ function LeadershipSection({ scrollY }: { scrollY: MotionValue<number> }) {
 }
 
 function ContactSection() {
+  const isMobile = useIsMobile();
   return (
     <section id="contact" className="relative w-full py-12 overflow-hidden">
       {/* ── Left honeycomb (absolute) ── */}
-      <div className="pointer-events-none absolute -left-16 sm:left-0 top-1/2 -translate-y-1/2 opacity-60 hidden md:block">
-        <Image
-          src="/images/honeycomb.png"
-          alt=""
-          width={288}
-          height={288}
-          className="h-44 w-auto sm:h-60 md:h-72 rotate-180"
-          loading="lazy"
-        />
-      </div>
+      {!isMobile && (
+        <div className="pointer-events-none absolute -left-16 sm:left-0 top-1/2 -translate-y-1/2 opacity-60">
+          <Image
+            src="/images/honeycomb.png"
+            alt=""
+            width={288}
+            height={288}
+            className="h-44 w-auto sm:h-60 md:h-72 rotate-180"
+            loading="lazy"
+          />
+        </div>
+      )}
 
       {/* ── Center content ── */}
       <div className="relative z-10 mx-auto w-full max-w-2xl px-6 text-center">
@@ -1380,16 +1383,18 @@ function ContactSection() {
       </div>
 
       {/* ── Right honeycomb (absolute) ── */}
-      <div className="pointer-events-none absolute -right-16 sm:right-0 top-1/2 -translate-y-1/2 opacity-60 hidden md:block">
-        <Image
-          src="/images/honeycomb.png"
-          alt=""
-          width={288}
-          height={288}
-          className="h-44 w-auto sm:h-60 md:h-72 -scale-x-100 rotate-180"
-          loading="lazy"
-        />
-      </div>
+      {!isMobile && (
+        <div className="pointer-events-none absolute -right-16 sm:right-0 top-1/2 -translate-y-1/2 opacity-60">
+          <Image
+            src="/images/honeycomb.png"
+            alt=""
+            width={288}
+            height={288}
+            className="h-44 w-auto sm:h-60 md:h-72 -scale-x-100 rotate-180"
+            loading="lazy"
+          />
+        </div>
+      )}
     </section>
   );
 }
