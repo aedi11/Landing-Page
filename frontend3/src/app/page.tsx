@@ -1043,16 +1043,6 @@ const teamMembers = [
   //            Professional Law, Accounting and Company Secretarial Firms for all Compliance & Documentation.
   //           
   {
-    icon: Code,
-    image: "/images/vipul.jpeg",
-    name: "Vipul Lout",
-    subtitle: "Dept. of Electrical Engineering IIT Delhi",
-    title: "Full-Stack Intern",
-    description:
-      "B.Tech graduate in Electrical Engineering from Indian Institute of Technology Delhi.",
-    accent: "#0E7490",
-  },
-  {
     icon: Briefcase,
     image: "/images/man.png",
     name: "Chunchreek Singhvi",
