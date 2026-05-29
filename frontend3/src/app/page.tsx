@@ -1022,7 +1022,7 @@ const teamMembers = [
     ],
     accent: "#EAC97C",
   },
-  // {
+ 
   //   icon: Briefcase,
   //   image: "/images/chunchreek_singhvi.jpg",
   //   name: "Chunchreek Singhvi",
